@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#292725">
+<title>創作シチュエーションガチャ</title>
+<meta name="description" content="属性×属性×シチュエーションで、今日描きたい1ページを見つける創作ガチャ。">
+<style>
+:root{--bg:#f7f4f0;--ink:#292725;--muted:#817a73;--card:#fff;--soft:#eee9e3;--accent:#292725}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif}
+button,select{font:inherit}
+.wrap{max-width:760px;margin:auto;padding:24px 16px 60px}
+header{text-align:center;margin:8px 0 22px}
+.logo{font-size:12px;letter-spacing:.16em;color:var(--muted);margin-bottom:8px}
+h1{font-size:28px;line-height:1.3;margin:0 0 8px;letter-spacing:.03em}
+.sub{color:var(--muted);font-size:14px;line-height:1.6}
+.card{background:var(--card);border-radius:24px;padding:20px;margin:14px 0;box-shadow:0 8px 28px rgba(0,0,0,.06)}
+.controls{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:14px}
+select{width:100%;border:1px solid #ddd5ce;background:#fff;border-radius:14px;padding:12px 14px;color:var(--ink)}
+label{font-size:12px;color:var(--muted);display:block;margin:0 0 5px}
+.tags{text-align:center;min-height:40px}
+.tag{display:inline-block;background:var(--soft);border-radius:999px;padding:7px 11px;font-size:12px;margin:3px}
+.tag.hot{background:#292725;color:#fff}
+.result{font-size:20px;line-height:1.85;text-align:center;min-height:190px;display:flex;flex-direction:column;justify-content:center;padding:10px 2px}
+.result .small{font-size:12px;color:var(--muted);margin-bottom:8px}
+.scene{font-weight:650}
+.detail{font-size:13px;color:var(--muted);margin-top:10px;line-height:1.65}
+button{width:100%;border:0;border-radius:999px;padding:15px 20px;font-size:16px;font-weight:750;cursor:pointer;background:var(--ink);color:#fff;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+button:active{transform:scale(.985)}
+.secondary{background:var(--soft);color:var(--ink);margin-top:10px}
+.share{background:#fff;color:var(--ink);border:1px solid #ddd5ce;margin-top:10px}
+.product{display:flex;gap:14px;align-items:center}
+.product-icon{width:58px;height:58px;border-radius:14px;background:var(--soft);display:grid;place-items:center;font-size:25px;flex:none}
+.product h2{font-size:16px;margin:0 0 5px}
+.product p{font-size:13px;color:var(--muted);margin:0 0 10px}
+.product a{color:#555;text-decoration:underline;font-size:13px}
+.tip{font-size:13px;line-height:1.8;color:#555}
+.stats{font-size:11px;color:#999;text-align:center;margin-top:10px}
+.notice{background:#faf8f6;border-radius:16px;padding:13px;font-size:12px;line-height:1.7;color:#777}
+footer{font-size:11px;color:#8c8580;line-height:1.7;margin-top:24px}
+@media(min-width:600px){.controls{grid-template-columns:1fr 1fr}}
+</style>
+<style id="character-generator-style">
+.character-generator{margin:28px 0;padding:26px;border-radius:22px;background:linear-gradient(135deg,#f8f5ff,#fff8fb);border:1px solid #e5dced}
+.character-generator h2{margin:0 0 8px}.character-generator .lead{color:#666;margin:0 0 18px}
+.character-generate-btn{display:block;margin:0 auto 22px;border:0;border-radius:16px;padding:15px 34px;font-size:1.1rem;font-weight:800;cursor:pointer;background:#5d486a;color:#fff;box-shadow:0 5px 14px rgba(0,0,0,.12)}
+.character-result{display:none;gap:14px;flex-direction:column}
+.char-card{background:#fff;border:1px solid #eee;border-radius:16px;padding:16px}
+.char-card h3{margin:0 0 8px;font-size:1rem}.char-main{font-size:1.05rem;font-weight:700;line-height:1.65}
+.char-situation{background:#faf7fc;border-radius:12px;padding:12px;line-height:1.6}
+.character-copy{margin:14px auto 0;display:block;border:1px solid #ddd;background:#fff;border-radius:12px;padding:10px 16px;font-weight:700;cursor:pointer}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<div class="logo">FOR CREATORS</div>
+<h1>🎲 創作シチュエーションガチャ</h1>
+<div class="sub">属性 × 属性 × シチュエーション<br>「この1ページ描きたい！」を偶然見つける。</div>
+</header>
+
+<section class="card">
+<div class="controls">
+  <div><label for="mode">ガチャモード</label>
+  <select id="mode">
+    <option value="balanced">おすすめ（当たりやすい）</option>
+    <option value="free">完全ランダム</option>
+    <option value="romance">恋愛・萌え寄り</option>
+    <option value="gap">ギャップ・体格差寄り</option>
+    <option value="work">仕事・日常寄り</option>
+  </select></div>
+  <div><label for="tone">お題の濃さ</label>
+  <select id="tone">
+    <option value="one">1ページで描きやすい</option>
+    <option value="dramatic">ドラマ強め</option>
+    <option value="quiet">静かな萌え</option>
+  </select></div>
+</div>
+
+<div class="tags" id="tags"></div>
+<div class="result" id="result">
+<div class="small">準備OK</div>
+<div class="scene">ボタンを押して、今日の「描きたい瞬間」を引こう。</div>
+</div>
+
+<button id="gachaBtn" type="button">🎲 3つまとめてガチャる</button>
+<button id="againBtn" type="button" class="secondary">もう一回ガチャる</button>
+<button id="shareBtn" type="button" class="share">結果をシェアする</button>
+<div class="stats" id="stats"></div>
+</section>
+
+<section class="card">
+<div class="product">
+<div class="product-icon">✏️</div>
+<div>
+<h2 id="productTitle">今日の創作のおとも</h2>
+<p id="productNote">ガチャ結果に合わせて創作資料・道具をおすすめ。</p>
+<a id="productLink" href="#" target="_blank" rel="noopener noreferrer">Amazonで関連商品を見る →</a>
+</div>
+</div>
+</section>
+
+<section class="card">
+<h2 style="font-size:17px;margin-top:0">✏️ 1ページにするなら</h2>
+<div class="tip" id="drawTip">ガチャを引くと、このお題をどう1ページに落とし込むかのヒントが出ます。</div>
+</section>
+
+<section class="card">
+<h2 style="font-size:17px;margin-top:0">このサイトの遊び方</h2>
+<div class="tip">
+① 3つの要素を引く<br>
+② 「これ描きたい！」と思ったらスクショ・シェア<br>
+③ そのまま1ページ漫画にする<br>
+④ もっと膨らませたければ、自分で設定を追加する
+</div>
+</section>
+
+<details>
+<summary>Amazonアソシエイトについて</summary>
+<div class="notice" style="margin-top:10px">
+公開時はAmazonアソシエイトの参加・表示条件に従ってください。Amazonアソシエイトでは、サイト上に所定の開示文を明確かつ目立つ場所に表示することが求められています。
+</div>
+</details>
+
+<footer>
+このページはプロトタイプです。商品画像やAmazonの商品データの自動取得は行っていません。公開版では各サービスの利用規約・アフィリエイト規約に従ってリンクを設定してください。
+</footer>
+</div>
+
+<script>
+"use strict";
+const DATA = {"attributes": ["人魚", "ギャル", "警察官", "クマ系", "ゴリラ系", "細目", "天才", "熱血", "サラリーマン", "お嬢様", "性欲が強い", "殺し屋", "年上", "年下", "エルフ", "真面目", "S気質", "M気質", "敬語", "学生", "漫画家", "筋肉質", "陰キャ", "オタク", "自信家", "お金持ち", "貴族", "貧乏", "無口", "おしゃべり", "クール", "不器用", "世話焼き", "人見知り", "強気", "弱気", "素直", "素直じゃない", "ツンとしがち", "生意気", "謙虚", "プライドが高い", "自己肯定感が低い", "自己犠牲的", "面倒見がいい", "お人好し", "冷淡", "几帳面", "大雑把", "心配性", "鈍感", "察しがいい", "空気が読めない", "空気を読みすぎる", "疑り深い", "人を信じやすい", "責任感が強い", "無責任", "正義感が強い", "反抗的", "保守的", "好奇心旺盛", "気分屋", "粘り強い", "根に持つ", "忘れっぽい", "怖そうで優しい", "優しそうで怖い", "強そうで弱い", "弱そうで強い", "大人っぽいのに子どもっぽい", "派手なのに純情", "地味なのに大胆", "冷たそうなのに甘い", "優しそうなのにドS", "完璧そうで不器用", "頭がいいのに生活力がない", "見た目は怖いのに小動物好き", "無愛想なのに世話焼き", "チャラそうで一途", "軽そうで誠実", "真面目そうで実は天然", "天然そうで計算高い", "強気なのに好きな人には弱い", "普段は饒舌なのに好きな人の前では無口", "普段は敬語なのに二人きりだと砕ける", "好きな人にだけ意地悪", "好きな人にだけ甘い", "好きな人にだけ弱い", "好きな人の前だけ緊張する", "片思いに気づいていない", "告白できない", "告白されたい", "告白したい", "告白が下手", "恋愛経験豊富", "恋愛初心者", "恋愛に疎い", "恋愛にトラウマがある", "独占欲が強い", "嫉妬深い", "束縛が苦手", "束縛してしまう", "追う側", "追われる側", "駆け引きが苦手", "駆け引きが得意", "照れ屋", "奥手", "積極的", "押しに弱い", "負けず嫌い", "頑固", "飄々としている", "ミステリアス", "過去を隠している", "秘密がある", "身分を隠している", "二重生活", "偽名を使っている", "記憶喪失", "名家出身", "元ヤン", "元優等生", "元天才", "元引きこもり", "家出経験がある", "家族と疎遠", "幼なじみ", "腐れ縁", "ライバル", "仕事仲間", "先輩", "後輩", "上司", "部下", "同僚", "教師", "医師", "看護師", "店員", "店主", "騎士", "魔法使い", "王族", "傭兵", "探偵", "怪盗", "アイドル", "俳優", "ミュージシャン", "作家", "研究者", "大学生", "高校生", "社会人", "既婚者", "バツイチ", "遠距離恋愛中", "同居中", "隣人", "ルームメイト", "偽装恋人", "契約関係", "犬派", "猫派", "料理上手", "料理下手", "甘党", "辛党", "酒好き", "朝が弱い", "朝型", "夜型", "方向音痴", "手先が器用", "手先が不器用", "字がきれい", "字が汚い", "低身長", "高身長", "細身", "長身", "体格差が大きい", "年齢差が大きい"], "situations": ["二人きりになった瞬間だけ、いつもの呼び方をやめる", "人前では平然としているのに、二人きりになると目を合わせられない", "帰り際、何か言いたそうにして結局「また明日」とだけ言う", "相手の手を見つめていたことに気づかれる", "「こっち来て」と手招きされる", "いつも敬語の相手が、ふとした瞬間だけ名前を呼び捨てにする", "髪についたものを取ってもらう", "襟元を直してもらう", "ネクタイを直している間だけ妙に距離が近い", "袖をまくる仕草を目で追ってしまう", "眼鏡を外した顔を初めて見る", "笑っているのに、なぜか無理をしていると気づく", "強がっているところを見抜かれる", "「無理してない？」と聞かれて初めて弱音を吐く", "落ち込んでいるとき、何も言わず隣に座ってくれる", "泣いているところを見られる", "眠っている顔を見てしまう", "寝たふりをしていたら、そっと顔を覗き込まれる", "くしゃみをしたところを見られて恥ずかしくなる", "あくびをしたところを見られる", "横顔をじっと見てしまう", "眼鏡をかけ直す仕草に見惚れる", "髪を耳にかける仕草を見てしまう", "袖をまくった腕に目がいってしまう", "手首や指先を意識してしまう", "触れそうになった手を引っ込める", "手を伸ばしかけて途中で止める", "触れた指先を二人とも気にしてしまう", "相手の手の大きさに初めて気づく", "背中に軽く触れられて距離が縮まる", "肩に触れられて反応してしまう", "耳元で名前を呼ばれる", "「近い」と言われて、離れるのではなくさらに近づく", "「嫌なら離れて」と言われる", "目が合ったまま、どちらも先に逸らさない", "見つめられていることに気づいてしまう", "目が合った瞬間にお互いそらす", "一度そらしたのに、もう一度見てしまう", "髪型を変えたことに最初に気づいてもらう", "「似合ってる」と言われて返事が遅れる", "いつもと違う服装で現れて思わず見つめてしまう", "名前を呼ばれただけなのに妙に意識してしまう", "あだ名で呼ばれることを許す", "「あなたにだけは言える」と秘密を打ち明けられる", "普段見せない表情を自分にだけ見せる", "「帰りたくない」と言われる", "「また会いたい」と言われる", "会う約束をしたあと、一人になってから嬉しくなる", "別れた直後に、もう会いたくなる", "別れ際に名残惜しそうに袖をつかまれる", "帰ろうとする相手を思わず呼び止めてしまう", "「もう少し一緒にいたい」と言いかけて飲み込む", "隣の席が空いているのに、なぜか少し離れて座る", "隣に座るために、さりげなく荷物をどかす", "重そうな荷物を何も言わず持っていかれる", "自分だけに違う態度を取られていることに気づく", "他の人と楽しそうに話している姿を見て少し不機嫌になる", "嫉妬していることを本人に指摘される", "「もしかして嫉妬してる？」と聞かれて否定する", "好きな人の前でだけ言葉が詰まる", "いつも強気な人が、その人の前だけ弱気になる", "いつも冷静な人が珍しく動揺する", "完璧な人が好きな人の前でだけ失敗する", "相手の好きなものを覚えていたことがばれる", "「覚えてないと思ってた」と言われる", "昔の写真を見せられる", "何気ない一言を何年も覚えていたことがわかる", "相手のためだけに普段ならしないことをする", "いつもなら言わない「ありがとう」を言われる", "「あなたがいてよかった」と言われる", "言いかけた「好き」を別の言葉に変える", "告白しようとした瞬間、相手から別の話を振られる", "「好きなタイプは？」と聞かれて答えに困る", "好きなタイプを聞かれ、「目の前の人」とは言えない", "昔好きだった人の話をして相手の反応を探る", "「誰にも渡したくない」と言いかけて飲み込む", "「それでも好き」と言いそうになる", "普段は絶対に見せない弱さを一瞬だけ見せる", "秘密の関係を誰かに見られそうになる", "身分や立場を隠していたことがばれる", "仕事中は完璧なのに、二人きりだとだらしない", "普段は無愛想なのに、自分の飲み物だけ用意してある", "何気なく好みを把握されている", "「あなたのこと、よく見てるから」と言われる", "自分のことだけ妙に詳しい相手に気づく", "人混みの中で相手を見つけた瞬間、無意識に笑ってしまう", "すれ違ったあと同時に振り返る", "遠くから目が合い、どちらもその場から動けない", "人混みで手をつかまれる", "迷子になり、手を引かれて歩く", "人にぶつかりそうになって庇われる", "転びそうになったところを支えられる", "段差で手を差し出される", "傘を忘れて、一つの傘に入れてもらう", "雨宿りした場所で二人きりになる", "濡れた髪をタオルで拭いてもらう", "雨で服が濡れてしまい上着を貸してもらう", "終電を逃してしまう", "最後の電車を待ちながら二人で話す", "帰り道が同じだとわかる", "「家まで送る」と言われる", "「家に帰りたくない」と言われる", "眠ってしまった相手を起こせず困る", "相手が寝落ちするまで隣にいる", "同じソファでうとうとしてしまう", "風邪をひいた相手を看病する", "熱を測るため額に手を当てる", "飲み物を渡すとき手が触れる", "薬を飲ませるために水を渡す", "背負って運ぶ", "荷物ごと抱え上げられる", "高い場所のものを取ってもらう", "届かないものを取ろうとして背伸びする", "後ろから手を伸ばされる", "人に見られない場所でだけ距離が近い", "仕事中だけ名字で呼ばれる", "二人きりになると名前で呼ばれる", "普段はタメ口なのに急に敬語になる", "普段は敬語なのに一瞬だけ素が出る", "電話越しの声がいつもより優しい", "メッセージでは強気なのに会うと照れる", "「今、会いたい」とメッセージが来る", "すぐ隣にいるのにメッセージで話す", "既読がつくまで落ち着かない", "返信を考えすぎて送れない", "送った直後に後悔する", "相手からの通知だけ特別扱いしている自分に気づく", "スマホを見て笑っているところを見られる", "写真を撮ろうとして距離が近くなる", "一緒に写真を撮ることを頼まれる", "写真を見返して相手との距離に気づく", "鏡越しに目が合う", "ガラス越しに視線が重なる", "同じものを選んでしまう", "同じ飲み物を頼んでしまう", "一口だけ交換しようと言われる", "食べ物が口元についていると教えられる", "相手の好物をこっそり用意する", "自分の分だけ好みどおりにしてある", "飲み物の温度まで覚えられている", "席を取っておいてくれる", "何も言わず隣の席を空けてある", "寒そうにしていたら上着をかけられる", "眠そうにしていたら肩を貸してもらう", "髪についた雪や花びらを払ってもらう", "服についた糸くずを取ってもらう", "ボタンを留め直してもらう", "襟やタグを直してもらう", "ネクタイを緩める姿を見てしまう", "シャツの袖をまくる姿を見てしまう", "普段見えない首筋や手首に目がいく", "靴紐を結び直している姿を見てしまう", "しゃがんでいる相手と目が合う", "見上げた先に相手の顔がある", "見下ろされて、妙に緊張する", "体格差を初めて強く意識する", "身長差で視線の高さが違うことに気づく", "年齢差を感じる一言を言われる", "子ども扱いされてむっとする", "大人扱いされて急に意識する", "「大丈夫」と笑った相手が全然大丈夫ではない", "強がる相手の手が震えていることに気づく", "普段泣かない相手が涙をこぼす", "泣いているところを見られまいと隠す", "怒っていると思ったら心配していたとわかる", "冷たい言葉の裏に優しさがあると気づく", "優しい言葉なのに目だけが笑っていない", "冗談だと思ったら目だけは本気だった", "「別に」と言いながら明らかに気にしている", "「なんでもない」と言いながら視線を逸らす", "本音を言いかけてやめる", "言葉ではなく表情で気持ちが伝わる", "相手が言い終わる前に気持ちを察してしまう", "同じことを考えていたとわかる", "「考えてること同じだったね」と笑う", "無言のまま気持ちが通じる", "喧嘩したあと、仲直りのきっかけを探す", "謝ろうとして二人とも同時に口を開く", "意地を張って帰ろうとする", "追いかけて袖をつかむ", "「待って」と呼び止める", "背を向けた相手が一度だけ振り返る", "別れたあと、相手が見えなくなるまでその場にいる", "人前では何もなかったように振る舞う", "誰かが来た瞬間、二人の距離が離れる", "秘密の関係を隠すために咄嗟に離れる", "誰かに「仲いいね」と言われて二人とも黙る", "恋人だと勘違いされて否定できない", "偽装恋人のふりをする", "恋人のふりなのに距離感がおかしくなる", "契約上の関係なのに本気になり始める", "ライバルに「好きなの？」と見抜かれる", "友人に恋心を見抜かれる", "本人だけが恋心に気づいていない", "好きな人の前だけ態度が変わることを指摘される", "「なんで俺にだけそんな態度？」と聞かれる", "「あなたにだけは嫌われたくない」と言われる", "「嫌いになれたら楽なのに」と言われる", "「好きじゃない」と言い切った直後に動揺する", "好きだと認めた瞬間に相手が目の前にいる", "告白の練習をしていたところを本人に聞かれる", "告白するつもりで呼び出したのに緊張する", "プレゼントを渡す理由を言えない", "誕生日を覚えていたことに驚かれる", "何でもない日に小さな贈り物を渡す", "「これ、似合うと思って」と渡される", "相手からもらったものを大切にしていることがばれる", "借りた服を返すのが惜しくなる", "相手の匂いが残った服を意識してしまう", "いつも使っている香りに気づく", "相手の癖を無意識に真似している", "口癖がうつっていることを指摘される", "相手が笑うと自分も笑ってしまう", "相手が傷つくと自分まで苦しくなる", "「俺のこと心配してる？」と聞かれる", "「心配だから」と言い訳してそばにいる", "用事がないのに会いに行く", "偶然を装って会いに行く", "会いたい理由を別の用事にこじつける", "会えるとわかった瞬間に表情が明るくなる", "会えないと知って少し寂しくなる", "次に会う予定を確認してしまう", "何気ない約束を覚えている", "昔の約束を今でも守っている", "「覚えてたんだ」と驚かれる", "昔の自分を知る相手と再会する", "過去の秘密を知られてしまう", "隠していた身分がばれる", "本名を教える", "初めて本当の自分を見せる", "誰にも見せない顔を見せる", "「あなたには嘘をつけない」と言われる"], "products": [{"label": "漫画の構図・演出", "keyword": "漫画 構図 演出 描き方 本", "note": "1ページで視線を誘導したい日に"}, {"label": "人体・ポーズ資料", "keyword": "マンガ 人体 ポーズ 資料集", "note": "手・体格差・距離感を描きたい日に"}, {"label": "表情・感情表現", "keyword": "マンガ 表情 感情 描き方 本", "note": "目線や口元で感情を出したい日に"}, {"label": "背景・パース資料", "keyword": "マンガ 背景 パース 資料集", "note": "舞台まで描き込みたい日に"}, {"label": "漫画家向け作画道具", "keyword": "漫画 ペン ミリペン 作画道具", "note": "作画環境を整えたい日に"}, {"label": "創作・キャラクター資料", "keyword": "漫画 キャラクター 創作 アイデア 本", "note": "ネタを増やしたい日に"}]};
+const state = {lastA1:null,lastA2:null,lastS:null,lastText:""};
+
+function rand(arr) {
+  return arr[Math.floor(Math.random()*arr.length)];
+}
+
+function chooseAttribute(mode, first) {
+  let candidates = DATA.attributes.slice();
+  if (mode === "romance") {
+    const keys = ["恋愛","片思い","告白","嫉妬","独占欲","追う側","追われる側","奥手","積極的","恋愛初心者","恋愛経験豊富","恋愛に疎い","恋愛にトラウマがある","好きな人にだけ弱い","好きな人にだけ甘い","好きな人にだけ意地悪","照れ屋","偽装恋人","契約関係","幼なじみ","ライバル"];
+    candidates = candidates.filter(x => keys.some(k => x.includes(k)));
+  } else if (mode === "gap") {
+    const keys = ["年上","年下","高身長","低身長","長身","細身","筋肉質","体格差が大きい","年齢差が大きい","怖そうで優しい","優しそうで怖い","強そうで弱い","弱そうで強い","大人っぽいのに子どもっぽい","派手なのに純情","地味なのに大胆","完璧そうで不器用","頭がいいのに生活力がない","見た目は怖いのに小動物好き","無愛想なのに世話焼き","チャラそうで一途","軽そうで誠実"];
+    candidates = candidates.filter(x => keys.some(k => x.includes(k)));
+  } else if (mode === "work") {
+    const keys = ["サラリーマン","警察官","上司","部下","同僚","仕事仲間","先輩","後輩","教師","医師","看護師","店員","店主","研究者","漫画家","作家","社会人","学生"];
+    candidates = candidates.filter(x => keys.some(k => x.includes(k)));
+  }
+  if (!candidates.length) candidates = DATA.attributes;
+  let x;
+  do { x = rand(candidates); } while (candidates.length > 1 && x === (first ? state.lastA1 : state.lastA2));
+  return x;
+}
+
+function pairScore(a,b,mode) {
+  let score = 0;
+  const bad = [
+    ["S気質","M気質"],["無口","おしゃべり"],["朝型","夜型"],
+    ["料理上手","料理下手"],["犬派","猫派"]
+  ];
+  if (bad.some(p => p.includes(a) && p.includes(b))) score -= 7;
+  if (mode === "romance") score += (/(恋愛|好き|告白|嫉妬|独占|追う|追われ|照れ|奥手|積極)/.test(a+b) ? 3 : 0);
+  if (mode === "gap") score += (/(年上|年下|高身長|低身長|長身|細身|筋肉|体格差|年齢差|怖そう|優しそう|強そう|弱そう|大人っぽい|子どもっぽい|派手|地味)/.test(a+b) ? 3 : 0);
+  return score;
+}
+
+function choosePair(mode) {
+  const a1 = chooseAttribute(mode,true);
+  let best = null;
+  for (let i=0;i<12;i++) {
+    const a2 = chooseAttribute(mode,false);
+    if (a2 === a1) continue;
+    const sc = pairScore(a1,a2,mode);
+    if (!best || sc > best.score || Math.random() < .18) best = {a2,score:sc};
+  }
+  return [a1,best ? best.a2 : chooseAttribute(mode,false)];
+}
+
+function chooseSituation(mode,tone) {
+  let candidates = DATA.situations.slice();
+  const romance = /(好き|告白|嫉妬|独占|恋人|恋心|会いたい|呼び止め|見つめ|距離|触れ|名前|手|耳元|帰りたくない|帰したくない|秘密)/;
+  const quiet = /(目が合|見つめ|眠|横顔|手|指|袖|髪|名前|無言|視線|隣|飲み物|覚えて|笑)/;
+  const dramatic = /(秘密|身分|告白|喧嘩|涙|泣|追いかけ|別れ|再会|契約|偽装|正体|本音)/;
+  if (mode === "romance") candidates = candidates.filter(x => romance.test(x));
+  if (mode === "work") candidates = candidates.filter(x => /(仕事|職場|名字|上司|部下|同僚|敬語|電話|会議)/.test(x));
+  if (tone === "quiet") candidates = candidates.filter(x => quiet.test(x));
+  if (tone === "dramatic") candidates = candidates.filter(x => dramatic.test(x));
+  if (!candidates.length) candidates = DATA.situations;
+  let x;
+  do { x = rand(candidates); } while(candidates.length > 1 && x === state.lastS);
+  return x;
+}
+
+function makeTip(a1,a2,s,tone) {
+  if (tone === "quiet") return "セリフを減らして、目線・指先・距離の変化を大きく。最後の1コマだけ表情を変えると「何かあった感」が出ます。";
+  if (tone === "dramatic") return "1〜2コマ目で状況、3コマ目で相手の反応、最後のコマで本音を匂わせると、短くてもドラマが出ます。";
+  return "「状況説明→反応→決定的な表情」の3段階にすると、1ページでも感情の変化が伝わります。";
+}
+
+function gacha() {
+  const mode = document.getElementById("mode").value;
+  const tone = document.getElementById("tone").value;
+  let [a1,a2] = choosePair(mode);
+  const s = chooseSituation(mode,tone);
+
+  // Avoid repeating the entire result.
+  if (`${a1}|${a2}|${s}` === state.lastText) {
+    [a1,a2] = choosePair(mode);
+  }
+  state.lastA1=a1; state.lastA2=a2; state.lastS=s;
+  state.lastText=`${a1}|${a2}|${s}`;
+
+  document.getElementById("tags").innerHTML =
+    `<span class="tag hot">${a1}</span><span class="tag hot">${a2}</span><span class="tag">シチュエーション</span>`;
+
+  document.getElementById("result").innerHTML =
+    `<div class="small">今日の創作お題</div>
+     <div class="scene">${s}</div>
+     <div class="detail">${a1} × ${a2}</div>`;
+
+  document.getElementById("drawTip").textContent = makeTip(a1,a2,s,tone);
+
+  const p = rand(DATA.products);
+  document.getElementById("productTitle").textContent = p.label;
+  document.getElementById("productNote").textContent = p.note;
+  document.getElementById("productLink").href = "https://www.amazon.co.jp/s?k=" + encodeURIComponent(p.keyword);
+
+  document.getElementById("stats").textContent =
+    `属性 ${DATA.attributes.length}種類 × シチュエーション ${DATA.situations.length}種類 / 生成対象 約${(DATA.attributes.length*(DATA.attributes.length-1)*DATA.situations.length).toLocaleString()}通り`;
+}
+
+async function shareResult() {
+  const tags = [...document.querySelectorAll("#tags .tag.hot")].map(x=>x.textContent);
+  const scene = document.querySelector(".scene")?.textContent || "";
+  const text = `🎲 今日の創作シチュエーション\n${tags.join(" × ")}\n「${scene}」`;
+  try {
+    if (navigator.share) {
+      await navigator.share({title:"創作シチュエーションガチャ",text});
+    } else if (navigator.clipboard) {
+      await navigator.clipboard.writeText(text);
+      alert("結果をコピーしました！");
+    } else {
+      window.prompt("コピーしてシェアしてね", text);
+    }
+  } catch(e) {}
+}
+
+document.getElementById("gachaBtn").addEventListener("click",gacha);
+document.getElementById("againBtn").addEventListener("click",gacha);
+document.getElementById("shareBtn").addEventListener("click",shareResult);
+document.getElementById("stats").textContent =
+  `属性 ${DATA.attributes.length}種類 × シチュエーション ${DATA.situations.length}種類`;
+</script>
+<script id="appearance-script">
+const appearanceTraits=["長髪", "短髪", "肩までの髪", "腰までの髪", "前髪ぱっつん", "センター分け", "重め前髪", "片目隠れ", "ポニーテール", "ツインテール", "ハーフアップ", "三つ編み", "編み込み", "お団子ヘア", "外ハネ", "内巻き", "無造作ヘア", "くせ毛", "さらさらストレート", "ウェーブヘア", "濡れ髪", "寝ぐせ", "白髪", "銀髪", "金髪", "黒髪", "赤髪", "青髪", "紫髪", "メッシュ", "インナーカラー", "毛先だけ別色", "長いまつ毛", "太い眉", "細い眉", "下がり眉", "つり眉", "切れ長の目", "たれ目", "三白眼", "ジト目", "眠そうな目", "大きな瞳", "左右で瞳の色が違う", "ハイライトのない瞳", "眼鏡", "丸眼鏡", "細フレーム眼鏡", "サングラス", "片眼鏡", "眼帯", "包帯", "マスク", "チョーカー", "ピアス", "イヤーカフ", "大きなイヤリング", "片耳だけピアス", "指輪", "複数の指輪", "ネックレス", "ペンダント", "ブレスレット", "腕時計", "手袋", "指ぬきグローブ", "ロンググローブ", "片手だけ手袋", "長い爪", "黒いネイル", "赤いネイル", "傷跡", "古傷", "顔の傷", "眉の傷", "首元の傷", "ほくろ", "泣きぼくろ", "口元のほくろ", "そばかす", "八重歯", "尖った耳", "エルフ耳", "小さな角", "大きな角", "獣耳", "猫耳", "犬耳", "うさ耳", "尻尾", "翼", "義手", "義足", "杖", "松葉杖", "ハイネック", "オフショルダー", "肩出し", "背中が開いた服", "胸元が大きく開いた服", "へそ出し", "ミニスカート", "ロングスカート", "タイトスカート", "プリーツスカート", "ショートパンツ", "ワイドパンツ", "スキニーパンツ", "オーバーサイズ", "ぴったりした服", "ロングコート", "トレンチコート", "ジャケット", "パーカー", "白衣", "制服", "スーツ", "ベスト", "サスペンダー", "ネクタイ", "リボンタイ", "蝶ネクタイ", "首元をゆるめたシャツ", "袖まくり", "長袖", "ノースリーブ", "半袖", "タンクトップ", "タートルネック", "カーディガン", "ニット", "レース服", "フリル服", "ゴシック服", "ロリータ服", "和服", "着物", "浴衣", "チャイナ服", "軍服風", "メイド服", "作業着", "スポーツウェア", "白一色の服", "黒一色の服", "赤を差し色にする", "青を差し色にする", "柄物の服", "ストライプ柄", "チェック柄", "花柄", "迷彩柄", "革ジャン", "デニム", "ベルト多め", "チェーンアクセ", "安全ピン", "大きなリボン", "スカーフ", "ヒール", "ピンヒール", "厚底靴", "ブーツ", "ロングブーツ", "ショートブーツ", "パンプス", "ローファー", "スニーカー", "サンダル", "編み上げブーツ", "左右違う靴", "素足", "黒タイツ", "白タイツ", "網タイツ", "ニーソックス", "ルーズソックス", "ハイソックス", "ガーターベルト", "アンクレット", "細身", "華奢", "筋肉質", "肩幅が広い", "肩幅が狭い", "長身", "小柄", "脚が長い", "手が大きい", "指が長い", "首が長い", "姿勢がいい", "猫背", "無表情", "いつも笑顔", "眠そうな表情", "不機嫌そうな顔", "余裕のある笑み", "自信満々な表情", "無防備な笑顔", "口元だけ笑う", "目だけ笑っていない", "常に顔が赤い", "頬に絆創膏", "額に絆創膏", "香水をつけている", "いつも飴を持っている", "大きな鞄", "小さな鞄", "リュック", "ショルダーバッグ", "手帳を持ち歩く", "本を持ち歩く", "花を持つ", "ぬいぐるみを持つ", "傘を持つ", "いつも帽子をかぶる", "ベレー帽", "キャップ", "ハット", "フードをかぶる", "耳元に髪をかける癖", "髪を触る癖", "眼鏡を押し上げる癖", "袖で手を隠す", "指先だけ出す服", "ボタンを一つだけ外している", "ネクタイを緩めている", "靴下が片方ずれている", "服のサイズが合っていない", "少し着崩している", "完璧に着こなしている", "季節外れの服装"];
+function spinAppearance(){
+ const pool=[...appearanceTraits], picks=[];
+ while(picks.length<5){picks.push(pool.splice(Math.floor(Math.random()*pool.length),1)[0]);}
+ document.getElementById('appearanceResult').textContent=picks.join(' × ');
+ document.getElementById('appearanceTags').innerHTML=picks.map(x=>'<span class="appearance-tag">'+x+'</span>').join('');
+}
+document.getElementById('appearanceSpin')?.addEventListener('click',spinAppearance);
+document.getElementById('appearanceMore')?.addEventListener('click',spinAppearance);
+</script>
+<script id="character-generator-script">
+const cgAppearance=["長髪", "短髪", "肩までの髪", "腰までの髪", "前髪ぱっつん", "センター分け", "重め前髪", "片目隠れ", "ポニーテール", "ツインテール", "ハーフアップ", "三つ編み", "編み込み", "お団子ヘア", "外ハネ", "内巻き", "無造作ヘア", "くせ毛", "さらさらストレート", "ウェーブヘア", "濡れ髪", "寝ぐせ", "白髪", "銀髪", "金髪", "黒髪", "赤髪", "青髪", "紫髪", "メッシュ", "インナーカラー", "毛先だけ別色", "長いまつ毛", "太い眉", "細い眉", "下がり眉", "つり眉", "切れ長の目", "たれ目", "三白眼", "ジト目", "眠そうな目", "大きな瞳", "左右で瞳の色が違う", "ハイライトのない瞳", "眼鏡", "丸眼鏡", "細フレーム眼鏡", "サングラス", "片眼鏡", "眼帯", "包帯", "マスク", "チョーカー", "ピアス", "イヤーカフ", "大きなイヤリング", "片耳だけピアス", "指輪", "複数の指輪", "ネックレス", "ペンダント", "ブレスレット", "腕時計", "手袋", "指ぬきグローブ", "ロンググローブ", "片手だけ手袋", "長い爪", "黒いネイル", "赤いネイル", "傷跡", "古傷", "顔の傷", "眉の傷", "首元の傷", "ほくろ", "泣きぼくろ", "口元のほくろ", "そばかす", "八重歯", "尖った耳", "エルフ耳", "小さな角", "大きな角", "獣耳", "猫耳", "犬耳", "うさ耳", "尻尾", "翼", "義手", "義足", "杖", "松葉杖", "ハイネック", "オフショルダー", "肩出し", "背中が開いた服", "胸元が大きく開いた服", "へそ出し", "ミニスカート", "ロングスカート", "タイトスカート", "プリーツスカート", "ショートパンツ", "ワイドパンツ", "スキニーパンツ", "オーバーサイズ", "ぴったりした服", "ロングコート", "トレンチコート", "ジャケット", "パーカー", "白衣", "制服", "スーツ", "ベスト", "サスペンダー", "ネクタイ", "リボンタイ", "蝶ネクタイ", "首元をゆるめたシャツ", "袖まくり", "長袖", "ノースリーブ", "半袖", "タンクトップ", "タートルネック", "カーディガン", "ニット", "レース服", "フリル服", "ゴシック服", "ロリータ服", "和服", "着物", "浴衣", "チャイナ服", "軍服風", "メイド服", "作業着", "スポーツウェア", "白一色の服", "黒一色の服", "赤を差し色にする", "青を差し色にする", "柄物の服", "ストライプ柄", "チェック柄", "花柄", "迷彩柄", "革ジャン", "デニム", "ベルト多め", "チェーンアクセ", "安全ピン", "大きなリボン", "スカーフ", "ヒール", "ピンヒール", "厚底靴", "ブーツ", "ロングブーツ", "ショートブーツ", "パンプス", "ローファー", "スニーカー", "サンダル", "編み上げブーツ", "左右違う靴", "素足", "黒タイツ", "白タイツ", "網タイツ", "ニーソックス", "ルーズソックス", "ハイソックス", "ガーターベルト", "アンクレット", "細身", "華奢", "筋肉質", "肩幅が広い", "肩幅が狭い", "長身", "小柄", "脚が長い", "手が大きい", "指が長い", "首が長い", "姿勢がいい", "猫背", "無表情", "いつも笑顔", "眠そうな表情", "不機嫌そうな顔", "余裕のある笑み", "自信満々な表情", "無防備な笑顔", "口元だけ笑う", "目だけ笑っていない", "常に顔が赤い", "頬に絆創膏", "額に絆創膏", "香水をつけている", "いつも飴を持っている", "大きな鞄", "小さな鞄", "リュック", "ショルダーバッグ", "手帳を持ち歩く", "本を持ち歩く", "花を持つ", "ぬいぐるみを持つ", "傘を持つ", "いつも帽子をかぶる", "ベレー帽", "キャップ", "ハット", "フードをかぶる", "耳元に髪をかける癖", "髪を触る癖", "眼鏡を押し上げる癖", "袖で手を隠す", "指先だけ出す服", "ボタンを一つだけ外している", "ネクタイを緩めている", "靴下が片方ずれている", "服のサイズが合っていない", "少し着崩している", "完璧に着こなしている", "季節外れの服装"];
+const cgPersonality=["無愛想", "面倒見がいい", "完璧主義", "天然", "皮肉屋", "素直じゃない", "世話焼き", "マイペース", "人見知り", "人懐っこい", "負けず嫌い", "自信家", "自己評価が低い", "責任感が強い", "自由人", "几帳面", "大雑把", "警戒心が強い", "人を信じやすい", "空気を読みすぎる", "鈍感", "察しがいい", "努力家", "天才肌", "不器用", "要領がいい", "正義感が強い", "反抗的", "保守的", "好奇心旺盛", "飽きっぽい", "執念深い", "忘れっぽい", "優しい", "冷淡", "寡黙", "おしゃべり", "毒舌", "照れ屋", "強がり", "寂しがり", "甘え下手", "甘え上手", "頼るのが苦手", "好きな人にだけ弱い", "普段は冷静", "恋愛だけ不器用", "何でも一人で抱える", "実は寂しい"];
+const cgRelationships=["年上×年下", "同い年", "上司×部下", "先輩×後輩", "幼なじみ", "友達から恋人", "犬猿の仲", "秘密を共有している", "仕事仲間", "ライバル", "師弟", "主従", "護衛と依頼人", "隣人", "同居人", "偽装恋人", "昔の知り合い", "再会した二人", "片方だけ片思い", "両片思い", "お互いに気になっている", "恋愛対象だと思っていない", "告白できない二人", "相手にだけ敬語", "相手にだけタメ口", "普段は敬語", "二人きりだと距離が近い", "他人には冷たいが相手には甘い", "相手の前だけ弱い", "相手の秘密を知っている"];
+const cgSituations=["二人きりになった瞬間だけ名前を呼び捨てにする", "帰り道で偶然二人きりになる", "相手の寝顔を見てしまう", "眠そうな相手を見て笑う", "手を伸ばしかけて、触れずに止める", "服についた糸くずを取ってあげる", "ネクタイを直してあげる", "髪についた雨粒を払う", "相手の好きな飲み物を覚えている", "無言で隣に座る", "帰ろうとする相手を呼び止める", "人混みの中で相手を見つける", "目が合って、どちらからともなく逸らす", "いつもと違う服装に気づく", "相手の笑顔が無理していると気づく", "「大丈夫？」と聞く", "相手の手の大きさに気づく", "傘を一本だけ共有する", "終電を逃してしまう", "雨宿りで肩が触れる", "相手が怪我をしていることに気づく", "包帯を巻き直してあげる", "相手の秘密を偶然知る", "「帰りたくない」と言われる", "名前を呼ばれて振り返る", "別れ際に何度も振り返る", "他の人と話す相手を見て、少しだけ嫉妬する", "相手から突然「会いたい」と言われる", "普段は敬語なのに一瞬だけ素が出る", "相手の距離がいつもより近いことに気づく"];
+function cgPick(arr,n){const p=[...arr],o=[];while(o.length<n&&p.length)o.push(p.splice(Math.floor(Math.random()*p.length),1)[0]);return o;}
+function generateCharacter(){
+document.getElementById('charAppearance').textContent=cgPick(cgAppearance,5).join(' × ');
+document.getElementById('charPersonality').textContent=cgPick(cgPersonality,3).join(' × ');
+document.getElementById('charRelationship').textContent=cgPick(cgRelationships,2).join(' × ');
+document.getElementById('charSituation').textContent='「'+cgPick(cgSituations,1)[0]+'」';
+document.getElementById('characterResult').style.display='flex';
+}
+document.getElementById('generateCharacter').addEventListener('click',generateCharacter);
+document.getElementById('copyCharacter').addEventListener('click',async()=>{
+const t='【キャラ創作ガチャ】\n🎨 外見：'+charAppearance.textContent+'\n💭 性格：'+charPersonality.textContent+'\n💕 関係性：'+charRelationship.textContent+'\n🎬 シチュエーション：'+charSituation.textContent;
+try{await navigator.clipboard.writeText(t);alert('コピーしました！')}catch(e){prompt('コピーしてください',t)}
+});
+</script>
+</body>
+</html>
