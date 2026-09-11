@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#292725">
 <title>創作ガチャスタジオ｜漫画・小説のお題ガチャ</title>
-<meta name="description" content="属性×属性×シチュエーションで、今日描きたい瞬間を見つける創作ガチャ。">
+<meta name="description" content="二人の「描きたい瞬間」が見つかる創作ガチャ。属性Aキャラ×属性Bキャラ×シチュエーションで、漫画・イラスト・小説のお題探しに。">
 <style>
 :root{--bg:#fff3f6;--ink:#292725;--muted:#817a73;--card:#fff;--soft:#f5e5eb;--accent:#292725}
 *{box-sizing:border-box}
@@ -49,17 +49,29 @@ html{scroll-behavior:smooth;scroll-padding-top:78px}body{font-size:16px;line-hei
 #stats{display:flex;justify-content:center;align-items:baseline;flex-wrap:wrap;gap:0 .45em}.stats-types{display:inline-flex;justify-content:center;flex-wrap:wrap;gap:0 .25em}.stats-types>span,.stats-total>span{white-space:nowrap}.stats-total{display:inline-flex;justify-content:center;flex-wrap:wrap;align-items:baseline;column-gap:.2em}@media(max-width:600px){#stats{flex-direction:column;align-items:center;gap:4px}.stats-total{font-size:14px}#combinationCount{font-size:1.125rem}}
 
 #tags{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;margin:8px 0 16px;min-height:0}#tags:empty{display:none}.character-card{background:#fff0f5;border:2px solid #dba8bb;border-radius:14px;padding:18px 12px;text-align:center;display:flex;flex-direction:column;justify-content:center;gap:8px}.character-label{font-size:14px;color:#784358;font-weight:600;line-height:1.5}.character-name{font-size:clamp(20px,4.8vw,26px);font-weight:800;line-height:1.55;color:#55283b;overflow-wrap:anywhere;word-break:normal}.result .small{font-size:14px;font-weight:600}@media(max-width:380px){#tags{gap:8px}.character-card{padding:14px 8px}}@media(min-width:600px){.character-card{padding:22px 18px}}
+
+.result{min-height:0;padding:18px 14px}.share-request{font-size:14px;line-height:1.8;color:var(--muted);text-align:center;margin:10px 0 14px}.hashtag{white-space:nowrap}
+
+.main-copy{display:inline-block;font-size:clamp(18px,4.5vw,23px);line-height:1.6;margin:4px 0 8px;color:var(--ink)}.formula{font-size:14px}#stats{color:var(--muted);font-weight:400}#combinationCount{font-size:14px}.result-image{margin:14px 0 0}.result-image img{display:block;width:100%;height:auto;border:1px solid #dfc3cf;border-radius:12px}.result-image a{display:block;text-align:center;padding:12px;border-radius:999px;background:var(--ink);color:white;margin-top:12px;text-decoration:none}.result-image p{font-size:14px;color:var(--muted)}
 </style>
+<script>
+window.gachaStartAtTop=!location.hash || location.hash==="#gacha";
+if(window.gachaStartAtTop){
+ if("scrollRestoration" in window.history)window.history.scrollRestoration="manual";
+ if(location.hash==="#gacha")window.history.replaceState(null,"",location.pathname+location.search);
+ window.addEventListener("pageshow",()=>{window.scrollTo({top:0,left:0,behavior:"instant"});});
+}
+</script>
 </head>
 <body>
 <div class="wrap">
 <header>
 <div class="logo">CREATIVE GACHA STUDIO</div>
 <h1>創作ガチャスタジオ</h1>
-<div class="sub">属性Aキャラ × 属性Bキャラ × シチュエーション<br>「この瞬間、描きたい！」を偶然見つける。</div>
+<div class="sub"><strong class="main-copy">「この瞬間、描きたい！」を見つける。</strong><br>二人の「描きたい瞬間」が見つかる創作ガチャ。<br><span class="formula">属性Aキャラ × 属性Bキャラ × シチュエーション</span></div>
 <div class="stats" id="stats"><span class="stats-types"><span id="attributeCount"></span><span aria-hidden="true">・</span><span id="situationCount"></span></span><span class="stats-total"><span>2人の属性と場面の組み合わせ：</span><span id="combinationCount"></span></span></div><div class="stats count-note">属性A・Bの入れ替えを含み、同じ属性同士を除いた全組み合わせ</div>
 </header>
-<nav aria-label="メインメニュー"><a href="#gacha">ガチャ</a><a href="saved.html">保存したお題</a><a href="#articles">創作記事</a><a href="#guide">使い方</a></nav>
+<nav aria-label="メインメニュー"><a href="#gacha">ガチャ</a><a href="saved.html">保存したお題</a><a href="#articles">創作記事</a></nav>
 
 <section class="card" id="gacha">
 <div class="controls">
@@ -72,20 +84,20 @@ html{scroll-behavior:smooth;scroll-padding-top:78px}body{font-size:16px;line-hei
   </select></div>
 </div>
 
-<div class="section-label">01 / お題を見つける</div>
+<div class="section-label">お題を見つける</div>
 <div class="locks"><label><input type="checkbox" id="lockA1" disabled> 属性Aを固定</label><label><input type="checkbox" id="lockA2" disabled> 属性Bを固定</label><label><input type="checkbox" id="lockS" disabled> 場面を固定</label></div>
 <div class="tags" id="tags" aria-live="polite" aria-atomic="true"></div>
 <div class="result" id="result" aria-live="polite" aria-atomic="true">
-<div class="small">準備OK</div>
 <div class="scene">ボタンを押して、今日の「描きたい瞬間」を引こう。</div>
 </div>
 
-<button id="gachaBtn" type="button">🎲 3つまとめてガチャる</button>
+<button id="gachaBtn" type="button">🎲 「描きたい瞬間」をガチャる</button>
 <button id="againBtn" type="button" class="secondary" hidden>もう一回ガチャる</button>
 <button id="saveBtn" type="button" class="secondary" disabled>☆ お気に入りに保存</button>
 <button id="shareBtn" type="button" disabled class="share" aria-expanded="false" aria-controls="shareOptions">結果をシェアする</button>
-<div id="shareOptions" class="share-options" hidden><a id="shareX" href="https://x.com/intent/post" target="_blank" rel="noopener noreferrer">Xで投稿する</a><button id="copyShare" type="button">投稿文をコピーする</button><button id="nativeShare" type="button">その他のアプリに共有する</button></div>
-<p id="status" role="status"></p>
+<p class="share-request">SNSの投稿には<span class="hashtag">#創作ガチャスタジオ</span>のタグ付けをお願いします。</p>
+<div id="shareOptions" class="share-options" hidden><a id="shareX" href="https://x.com/intent/post" target="_blank" rel="noopener noreferrer">Xで投稿する</a><button id="makeImage" type="button">結果を画像にする</button><button id="copyShare" type="button">投稿文をコピーする</button><button id="nativeShare" type="button">その他のアプリに共有する</button></div>
+<div id="imagePanel" class="result-image" hidden><img id="imagePreview" alt=""><a id="downloadImage" download="creative-gacha-result.png">画像を保存する</a><button id="shareImage" type="button" class="secondary" hidden>画像をアプリに共有する</button><p>保存した画像を、Xの投稿画面で添付できます。</p></div><p id="status" role="status"></p>
 </section>
 
 <section class="card">
@@ -99,17 +111,7 @@ html{scroll-behavior:smooth;scroll-padding-top:78px}body{font-size:16px;line-hei
 </div>
 </section>
 
-<section class="card" id="guide">
-<h2 style="font-size:17px;margin-top:0">このサイトの遊び方</h2>
-<div class="tip">
-① 3つの要素を引く<br>
-② 「これ描きたい！」と思ったらスクショ・シェア<br>
-③ 漫画・イラスト・小説など、好きな形で表現する<br>
-④ 気に入った要素を固定して、残りだけ引き直す<br>⑤ お気に入りに保存して、描きたいときに見返す<br><br>履歴は最新20件、お気に入りは最大100件をこのブラウザに保存します。別の端末とは同期されません。ブラウザのデータを消すと保存したお題も消えます。<br>SNSへの投稿には #創作ガチャスタジオ をどうぞ。
-</div>
-</section>
-
-<section class="card" id="articles"><div class="section-label">03 / 描きはじめるヒント</div><h2>創作記事</h2><p class="tip">キャラの性格から、二人の距離が変わる瞬間まで。</p><a class="article-link" href="article-01-personality.html">01　創作キャラの性格が決まらないときに使える性格アイデア50選</a><a class="article-link" href="article-02-moments.html">02　恋愛漫画で使える「距離が縮まる瞬間」30選</a><a class="article-link" href="article-03-scene.html">03　「描きたい瞬間」から作る、萌える一瞬の描き方</a></section><footer>創作ガチャスタジオ<br>漫画・小説・イラストのアイデア探しに。<br>掲載しているAmazonリンクは、関連資料の検索ページへのリンクです。</footer>
+<section class="card" id="articles"><div class="section-label">描きはじめるヒント</div><h2>創作記事</h2><p class="tip">キャラの性格から、二人の距離が変わる瞬間まで。</p><a class="article-link" href="article-01-personality.html">01　創作キャラの性格が決まらないときに使える性格アイデア50選</a><a class="article-link" href="article-02-moments.html">02　恋愛漫画で使える「距離が縮まる瞬間」30選</a><a class="article-link" href="article-03-scene.html">03　「描きたい瞬間」から作る、萌える一瞬の描き方</a></section><footer>創作ガチャスタジオ<br>漫画・小説・イラストのアイデア探しに。<br>掲載しているAmazonリンクは、関連資料の検索ページへのリンクです。</footer>
 </div>
 
 <script>
@@ -172,9 +174,10 @@ function renderCurrent(){
  for(const [cls,txt] of [["small","シチュエーション"],["scene",s]]){const div=document.createElement("div");div.className=cls;div.textContent=txt;el("result").append(div);}
  for(const id of ["lockA1","lockA2","lockS","shareBtn","saveBtn"])el(id).disabled=false;
  el("saveBtn").textContent=favorites.some(x=>same(x,current))?"★ お気に入り保存済み":"☆ お気に入りに保存";
- el("gachaBtn").textContent="🎲 固定していない要素をガチャる";
+ el("gachaBtn").textContent="🎲 「描きたい瞬間」をガチャる";
  state.lastA1=a1;state.lastA2=a2;state.lastS=s;
  updateShare();
+ resetImage();
 }
 function gacha(){
  if(current && ["lockA1","lockA2","lockS"].every(id=>el(id).checked)){notice("すべて固定されています。引き直したい要素の固定を外してください。");return;}
@@ -189,7 +192,7 @@ function gacha(){
  const p=rand(DATA.products);el("productTitle").textContent=p.label;el("productNote").textContent=p.note;el("productLink").href="https://www.amazon.co.jp/s?k="+encodeURIComponent(p.keyword);
 }
 function pageURL(hash=""){if(!/^https?:$/.test(location.protocol))return "";const url=new URL(location.href);url.search="";url.hash=hash;return url.href;}
-function resultText(){return current?`🎲 今日の創作お題\n${current.a1} × ${current.a2}\n「${current.s}」\n#創作ガチャスタジオ`:"";}
+function resultText(){return current?`🎲 今日の創作ガチャ\n\n${current.a1} × ${current.a2}\n「${current.s}」\n\nあなたなら、どの瞬間を描く？\n#創作ガチャスタジオ`:"";}
 function fullShareText(){return resultText()+(pageURL()?"\n"+pageURL():"");}
 function updateShare(){
  if(!current)return;
@@ -211,6 +214,39 @@ const total=DATA.attributes.length*(DATA.attributes.length-1)*DATA.situations.le
 el("attributeCount").textContent=`属性 ${DATA.attributes.length}種類`;
 el("situationCount").textContent=`シチュエーション ${DATA.situations.length}種類`;
 el("combinationCount").textContent=`${total.toLocaleString("ja-JP")}通り`;
+
+let resultImageURL=null,resultImageFile=null;
+function resetImage(){if(resultImageURL)URL.revokeObjectURL(resultImageURL);resultImageURL=null;resultImageFile=null;el("imagePanel").hidden=true;el("imagePreview").removeAttribute("src");el("downloadImage").removeAttribute("href");el("shareImage").hidden=true;}
+function wrapCardText(ctx,text,width){const lines=[];let line="";for(const char of text){if(ctx.measureText(line+char).width>width&&line){lines.push(line);line=char;}else line+=char;}if(line)lines.push(line);return lines;}
+el("makeImage").addEventListener("click",async()=>{
+ if(!current)return;
+ const snapshot=current;
+ const button=el("makeImage");button.disabled=true;button.textContent="画像を作成中…";
+ try{
+ if(document.fonts?.ready)await document.fonts.ready;
+ const canvas=document.createElement("canvas");canvas.width=1200;let ctx=canvas.getContext("2d");if(!ctx)throw Error("Canvas unavailable");
+ const font='"Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif';
+ ctx.font='700 42px '+font;const names=[snapshot.a1,snapshot.a2].map(x=>wrapCardText(ctx,x,430));const nameHeight=Math.max(...names.map(x=>x.length))*60+112;
+ ctx.font='700 48px '+font;const scenes=wrapCardText(ctx,snapshot.s,960);const sceneHeight=scenes.length*78;
+ canvas.height=Math.max(980,470+nameHeight+sceneHeight);ctx=canvas.getContext("2d");
+ ctx.fillStyle='#fff3f6';ctx.fillRect(0,0,1200,canvas.height);ctx.fillStyle='#9b3f62';ctx.fillRect(0,0,1200,16);
+ ctx.textBaseline='top';ctx.textAlign='center';ctx.fillStyle='#55283b';ctx.font='700 44px '+font;ctx.fillText('創作ガチャスタジオ',600,60);
+ ctx.font='26px '+font;ctx.fillStyle='#784358';ctx.fillText('今日の創作ガチャ',600,126);
+ for(let i=0;i<2;i++){const x=i?624:72;ctx.fillStyle='#fff';ctx.fillRect(x,194,504,nameHeight);ctx.strokeStyle='#dba8bb';ctx.lineWidth=3;ctx.strokeRect(x,194,504,nameHeight);ctx.fillStyle='#784358';ctx.font='26px '+font;ctx.fillText(i?'属性Bキャラ':'属性Aキャラ',x+252,220);ctx.fillStyle='#55283b';ctx.font='700 42px '+font;names[i].forEach((line,j)=>ctx.fillText(line,x+252,274+j*60));}
+ const y=194+nameHeight+44;ctx.fillStyle='#784358';ctx.font='26px '+font;ctx.fillText('シチュエーション',600,y);ctx.fillStyle='#292725';ctx.font='700 48px '+font;scenes.forEach((line,i)=>ctx.fillText(line,600,y+52+i*78));
+ ctx.fillStyle='#55283b';ctx.font='700 32px '+font;ctx.fillText('あなたなら、どの瞬間を描く？',600,canvas.height-175);
+ ctx.fillStyle='#9b3f62';ctx.font='700 30px '+font;ctx.fillText('#創作ガチャスタジオ',600,canvas.height-105);ctx.font='22px '+font;ctx.fillText('cgshnc.github.io/Creative-gacha/',600,canvas.height-56);
+ const blob=await new Promise((resolve,reject)=>canvas.toBlob(x=>x?resolve(x):reject(Error('Image encoding failed')),'image/png'));
+ if(current!==snapshot)return;
+ resetImage();resultImageURL=URL.createObjectURL(blob);resultImageFile=new File([blob],'creative-gacha-result.png',{type:'image/png'});
+ el('imagePreview').src=resultImageURL;el('imagePreview').alt=snapshot.a1+' × '+snapshot.a2+'：'+snapshot.s;
+ el('downloadImage').href=resultImageURL;el('imagePanel').hidden=false;
+ el('shareImage').hidden=!(navigator.canShare&&navigator.canShare({files:[resultImageFile]}));notice('画像を作りました。保存するか、対応アプリに共有できます。');
+ }catch{notice('画像を作成できませんでした。投稿文のコピーかスクリーンショットをご利用ください。');}
+ finally{button.disabled=false;button.textContent='結果を画像にする';}
+});
+el('shareImage').addEventListener('click',async()=>{if(!resultImageFile)return;try{await navigator.share({files:[resultImageFile],title:'創作ガチャスタジオ',text:fullShareText()});}catch(e){if(e.name!=='AbortError')notice('このアプリには画像を共有できませんでした。「画像を保存する」をお使いください。');}});
+
 function restoreResult(){
  if(!location.hash.startsWith("#restore="))return;
  try{const restored=JSON.parse(decodeURIComponent(location.hash.slice(9)));if(!valid(restored))throw new Error("Invalid saved result");current={a1:restored.a1,a2:restored.a2,s:restored.s};for(const id of ["lockA1","lockA2","lockS"])el(id).checked=false;renderCurrent();notice("保存したお題を読み込みました。");window.history.replaceState(null,"","#gacha");}catch{notice("お題を読み込めませんでした。保存したお題のページから開き直してください。");}
