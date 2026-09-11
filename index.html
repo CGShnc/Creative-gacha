@@ -69,7 +69,7 @@ if(window.gachaStartAtTop){
 <div class="logo">CREATIVE GACHA STUDIO</div>
 <h1>創作ガチャスタジオ</h1>
 <div class="sub"><strong class="main-copy">「この瞬間、描きたい！」を見つける。</strong><br>二人の「描きたい瞬間」が見つかる創作ガチャ。<br><span class="formula">属性Aキャラ × 属性Bキャラ × シチュエーション</span></div>
-<div class="stats" id="stats"><span class="stats-types"><span id="attributeCount"></span><span aria-hidden="true">・</span><span id="situationCount"></span></span><span class="stats-total"><span>2人の属性と場面の組み合わせ：</span><span id="combinationCount"></span></span></div><div class="stats count-note">属性A・Bの入れ替えを含み、同じ属性同士を除いた全組み合わせ</div>
+<div class="stats" id="stats"><span class="stats-types"><span id="attributeCount"></span><span id="situationCount"></span></span></div>
 </header>
 <nav aria-label="メインメニュー"><a href="#gacha">ガチャ</a><a href="saved.html">保存したお題</a><a href="#articles">創作記事</a></nav>
 
@@ -95,7 +95,7 @@ if(window.gachaStartAtTop){
 <button id="againBtn" type="button" class="secondary" hidden>もう一回ガチャる</button>
 <button id="saveBtn" type="button" class="secondary" disabled>☆ お気に入りに保存</button>
 <button id="shareBtn" type="button" disabled class="share" aria-expanded="false" aria-controls="shareOptions">結果をシェアする</button>
-<p class="share-request">SNSの投稿には<span class="hashtag">#創作ガチャスタジオ</span>のタグ付けをお願いします。</p>
+<p class="share-request">SNSの投稿には<span class="hashtag">「#創作ガチャスタジオ」</span>のタグ付けをお願いします。</p>
 <div id="shareOptions" class="share-options" hidden><a id="shareX" href="https://x.com/intent/post" target="_blank" rel="noopener noreferrer">Xで投稿する</a><button id="makeImage" type="button">結果を画像にする</button><button id="copyShare" type="button">投稿文をコピーする</button><button id="nativeShare" type="button">その他のアプリに共有する</button></div>
 <div id="imagePanel" class="result-image" hidden><img id="imagePreview" alt=""><a id="downloadImage" download="creative-gacha-result.png">画像を保存する</a><button id="shareImage" type="button" class="secondary" hidden>画像をアプリに共有する</button><p>保存した画像を、Xの投稿画面で添付できます。</p></div><p id="status" role="status"></p>
 </section>
@@ -210,10 +210,8 @@ el("saveBtn").onclick=()=>{if(!current)return;if(favorites.some(x=>same(x,curren
 el("gachaBtn").addEventListener("click",gacha);
 el("againBtn").addEventListener("click",gacha);
 el("shareBtn").addEventListener("click",shareResult);
-const total=DATA.attributes.length*(DATA.attributes.length-1)*DATA.situations.length;
 el("attributeCount").textContent=`属性 ${DATA.attributes.length}種類`;
 el("situationCount").textContent=`シチュエーション ${DATA.situations.length}種類`;
-el("combinationCount").textContent=`${total.toLocaleString("ja-JP")}通り`;
 
 let resultImageURL=null,resultImageFile=null;
 function resetImage(){if(resultImageURL)URL.revokeObjectURL(resultImageURL);resultImageURL=null;resultImageFile=null;el("imagePanel").hidden=true;el("imagePreview").removeAttribute("src");el("downloadImage").removeAttribute("href");el("shareImage").hidden=true;}
