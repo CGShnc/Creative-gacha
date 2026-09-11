@@ -44,33 +44,27 @@ footer{font-size:11px;color:#8c8580;line-height:1.7;margin-top:24px}
 @media(min-width:600px){.controls{grid-template-columns:1fr 1fr}}
 
 :root{--bg:#fff3f6;--ink:#292725;--muted:#68625d;--soft:#f5e5eb;--accent:#9b3f62}
-html{scroll-behavior:smooth;scroll-padding-top:78px}body{font-size:16px;line-height:1.7}.wrap{max-width:860px;padding-top:28px}header{text-align:left;border-bottom:2px solid var(--ink);padding:0 0 22px;margin-bottom:0}h1{font-size:clamp(25px,5vw,38px);letter-spacing:-.03em}.logo{font-size:12px;color:var(--accent);font-weight:800}.sub{font-size:16px;margin-top:12px}nav{display:flex;gap:8px;position:sticky;top:0;background:var(--bg);z-index:2;padding:12px 0;flex-wrap:wrap}nav a{font-size:14px;color:var(--ink);text-decoration:none;padding:7px 12px;border:1px solid #d5cdc4;border-radius:999px}nav a:hover{background:var(--ink);color:white}.card{border:1px solid #ded7cf;border-radius:18px;box-shadow:none;padding:24px;margin:18px 0}#gacha{border-top:5px solid var(--accent)}.section-label{font-size:12px;color:var(--accent);letter-spacing:.09em;font-weight:bold;margin-bottom:16px}label,.tag,.detail,.result .small,.tip,.product p,.product a{font-size:14px}label{color:var(--muted)}.locks{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}.locks label{display:flex;align-items:center;gap:6px;background:#fbeef3;padding:9px;border-radius:9px;color:var(--ink)}input[type=checkbox]{width:18px;height:18px;accent-color:var(--accent)}.result{min-height:200px;background:#fff5f8;border-radius:12px;padding:20px 12px;margin-bottom:18px}.scene{font-size:clamp(20px,4vw,26px);line-height:1.7}.tag.hot{background:var(--ink)}#gachaBtn{background:var(--accent)}button:disabled{opacity:.45;cursor:not-allowed}button:focus-visible,a:focus-visible,summary:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid #1d7088;outline-offset:3px}[hidden]{display:none!important}.stats,footer{font-size:12px;color:var(--muted)}#status{font-size:14px;color:var(--accent);margin:10px 0 0}h2{font-size:22px;margin:0 0 14px}h3{font-size:16px;margin:20px 0 8px}.saved-item{padding:14px 0;border-bottom:1px solid #e0d9d0}.saved-item p{margin:0 0 8px;overflow-wrap:anywhere}.saved-actions{display:flex;gap:8px}.saved-actions button{width:auto;padding:8px 14px;font-size:14px;background:var(--soft);color:var(--ink)}.empty{color:var(--muted);font-size:14px}.article{border-top:1px solid #ded7cf;padding:18px 0}.article summary{font-size:16px;font-weight:700;cursor:pointer}.article-body{padding:4px 4px 0;line-height:1.95}.article-body p{font-size:16px}.article-share{font-size:14px;background:var(--soft);color:var(--ink);margin-top:14px}footer{text-align:center;padding:20px 0}@media(max-width:480px){.wrap{padding:18px 12px 40px}.card{padding:18px}nav{gap:5px}nav a{padding:6px 9px}.locks{gap:5px}.locks label{font-size:13px;padding:8px 6px}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}button:active{transform:none}}
-.article-link{display:block;padding:18px 0;border-top:1px solid #ded7cf;color:#8d3055;font-size:16px;font-weight:bold;line-height:1.8;text-underline-offset:4px}</style>
+html{scroll-behavior:smooth;scroll-padding-top:78px}body{font-size:16px;line-height:1.7}.wrap{max-width:860px;padding-top:28px}header{text-align:center;border-bottom:2px solid var(--ink);padding:0 0 22px;margin-bottom:0}h1{font-size:clamp(25px,5vw,38px);letter-spacing:-.03em}.logo{font-size:12px;color:var(--accent);font-weight:800}.sub{font-size:16px;margin-top:12px}nav{display:flex;gap:8px;position:sticky;top:0;background:var(--bg);z-index:2;padding:12px 0;flex-wrap:wrap}nav a{font-size:14px;color:var(--ink);text-decoration:none;padding:7px 12px;border:1px solid #d5cdc4;border-radius:999px}nav a:hover{background:var(--ink);color:white}.card{border:1px solid #ded7cf;border-radius:18px;box-shadow:none;padding:24px;margin:18px 0}#gacha{border-top:5px solid var(--accent)}.section-label{font-size:12px;color:var(--accent);letter-spacing:.09em;font-weight:bold;margin-bottom:16px}label,.tag,.detail,.result .small,.tip,.product p,.product a{font-size:14px}label{color:var(--muted)}.locks{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}.locks label{display:flex;align-items:center;gap:6px;background:#fbeef3;padding:9px;border-radius:9px;color:var(--ink)}input[type=checkbox]{width:18px;height:18px;accent-color:var(--accent)}.result{min-height:200px;background:#fff5f8;border-radius:12px;padding:20px 12px;margin-bottom:18px}.scene{font-size:clamp(20px,4vw,26px);line-height:1.7}.tag.hot{background:var(--ink)}#gachaBtn{background:var(--accent)}button:disabled{opacity:.45;cursor:not-allowed}button:focus-visible,a:focus-visible,summary:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid #1d7088;outline-offset:3px}[hidden]{display:none!important}.stats,footer{font-size:12px;color:var(--muted)}#status{font-size:14px;color:var(--accent);margin:10px 0 0}h2{font-size:22px;margin:0 0 14px}h3{font-size:16px;margin:20px 0 8px}.saved-item{padding:14px 0;border-bottom:1px solid #e0d9d0}.saved-item p{margin:0 0 8px;overflow-wrap:anywhere}.saved-actions{display:flex;gap:8px}.saved-actions button{width:auto;padding:8px 14px;font-size:14px;background:var(--soft);color:var(--ink)}.empty{color:var(--muted);font-size:14px}.article{border-top:1px solid #ded7cf;padding:18px 0}.article summary{font-size:16px;font-weight:700;cursor:pointer}.article-body{padding:4px 4px 0;line-height:1.95}.article-body p{font-size:16px}.article-share{font-size:14px;background:var(--soft);color:var(--ink);margin-top:14px}footer{text-align:center;padding:20px 0}@media(max-width:480px){.wrap{padding:18px 12px 40px}.card{padding:18px}nav{gap:5px}nav a{padding:6px 9px}.locks{gap:5px}.locks label{font-size:13px;padding:8px 6px}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}button:active{transform:none}}
+.article-link{display:block;padding:18px 0;border-top:1px solid #ded7cf;color:#8d3055;font-size:16px;font-weight:bold;line-height:1.8;text-underline-offset:4px}.controls{grid-template-columns:1fr}nav{justify-content:center}.share-options{border:1px solid #e1c9d2;border-radius:14px;padding:14px;margin-top:12px;background:#fff5f8}.share-options a{display:block;text-align:center;background:#292725;color:white;text-decoration:none;padding:12px;border-radius:999px;font-weight:bold}.share-options button{margin-top:10px;background:var(--soft);color:var(--ink);font-size:14px}.count-note{font-size:12px}#stats{font-size:14px;color:#8d3055;font-weight:bold}.saved-actions a{padding:8px 14px;font-size:14px;background:var(--soft);border-radius:999px;color:var(--ink);text-decoration:none}</style>
 </head>
 <body>
 <div class="wrap">
 <header>
 <div class="logo">CREATIVE GACHA STUDIO</div>
 <h1>創作ガチャスタジオ</h1>
-<div class="sub">属性 × 属性 × シチュエーション<br>「この瞬間、描きたい！」を偶然見つける。</div>
+<div class="sub">属性Aキャラ × 属性Bキャラ × シチュエーション<br>「この瞬間、描きたい！」を偶然見つける。</div>
+<div class="stats" id="stats"></div><div class="stats count-note">属性A・Bの入れ替えを含み、同じ属性同士を除いた全組み合わせ</div>
 </header>
-<nav aria-label="メインメニュー"><a href="#gacha">ガチャ</a><a href="#collection">保存したお題</a><a href="#articles">創作記事</a><a href="#guide">使い方</a></nav>
+<nav aria-label="メインメニュー"><a href="#gacha">ガチャ</a><a href="saved.html">保存したお題</a><a href="#articles">創作記事</a><a href="#guide">使い方</a></nav>
 
 <section class="card" id="gacha">
 <div class="controls">
   <div><label for="mode">ガチャモード</label>
   <select id="mode">
-    <option value="balanced">おすすめ（当たりやすい）</option>
-    <option value="free">完全ランダム</option>
+    <option value="free" selected>ランダム</option>
     <option value="romance">恋愛・萌え寄り</option>
     <option value="gap">ギャップ・体格差寄り</option>
     <option value="work">仕事・日常寄り</option>
-  </select></div>
-  <div><label for="tone">お題の濃さ</label>
-  <select id="tone">
-    <option value="one">ひらめきのおまかせ</option>
-    <option value="dramatic">ドラマ強め</option>
-    <option value="quiet">静かな萌え</option>
   </select></div>
 </div>
 
@@ -85,8 +79,9 @@ html{scroll-behavior:smooth;scroll-padding-top:78px}body{font-size:16px;line-hei
 <button id="gachaBtn" type="button">🎲 3つまとめてガチャる</button>
 <button id="againBtn" type="button" class="secondary" hidden>もう一回ガチャる</button>
 <button id="saveBtn" type="button" class="secondary" disabled>☆ お気に入りに保存</button>
-<button id="shareBtn" type="button" disabled class="share">結果をシェアする</button>
-<div class="stats" id="stats"></div><p id="status" role="status"></p>
+<button id="shareBtn" type="button" disabled class="share" aria-expanded="false" aria-controls="shareOptions">結果をシェアする</button>
+<div id="shareOptions" class="share-options" hidden><a id="shareX" href="https://x.com/intent/post" target="_blank" rel="noopener noreferrer">Xで投稿する</a><button id="copyShare" type="button">投稿文をコピーする</button><button id="nativeShare" type="button">その他のアプリに共有する</button></div>
+<p id="status" role="status"></p>
 </section>
 
 <section class="card">
@@ -110,7 +105,6 @@ html{scroll-behavior:smooth;scroll-padding-top:78px}body{font-size:16px;line-hei
 </div>
 </section>
 
-<section class="card" id="collection"><div class="section-label">02 / アイデアの引き出し</div><h2>保存したお題</h2><h3>お気に入り</h3><div id="favorites"></div><h3>最近の履歴</h3><div id="history"></div></section>
 <section class="card" id="articles"><div class="section-label">03 / 描きはじめるヒント</div><h2>創作記事</h2><p class="tip">キャラの性格から、二人の距離が変わる瞬間まで。</p><a class="article-link" href="article-01-personality.html">01　創作キャラの性格が決まらないときに使える性格アイデア50選</a><a class="article-link" href="article-02-moments.html">02　恋愛漫画で使える「距離が縮まる瞬間」30選</a><a class="article-link" href="article-03-scene.html">03　「描きたい瞬間」から作る、萌える一瞬の描き方</a></section><footer>創作ガチャスタジオ<br>漫画・小説・イラストのアイデア探しに。<br>掲載しているAmazonリンクは、関連資料の検索ページへのリンクです。</footer>
 </div>
 
@@ -141,46 +135,21 @@ function chooseAttribute(mode, first) {
   return x;
 }
 
-function pairScore(a,b,mode) {
-  let score = 0;
-  const bad = [
-    ["S気質","M気質"],["無口","おしゃべり"],["朝型","夜型"],
-    ["料理上手","料理下手"],["犬派","猫派"]
-  ];
-  if (bad.some(p => p.includes(a) && p.includes(b))) score -= 7;
-  if (mode === "romance") score += (/(恋愛|好き|告白|嫉妬|独占|追う|追われ|照れ|奥手|積極)/.test(a+b) ? 3 : 0);
-  if (mode === "gap") score += (/(年上|年下|高身長|低身長|長身|細身|筋肉|体格差|年齢差|怖そう|優しそう|強そう|弱そう|大人っぽい|子どもっぽい|派手|地味)/.test(a+b) ? 3 : 0);
-  return score;
-}
-
 function choosePair(mode) {
-  const a1 = chooseAttribute(mode,true);
-  if (mode === "free") return [a1,rand(DATA.attributes.filter(x=>x!==a1 && x!==state.lastA2))];
-  let best = null;
-  for (let i=0;i<12;i++) {
-    const a2 = chooseAttribute(mode,false);
-    if (a2 === a1) continue;
-    const sc = pairScore(a1,a2,mode);
-    if (!best || sc > best.score || Math.random() < .18) best = {a2,score:sc};
-  }
-  return [a1,best ? best.a2 : chooseAttribute(mode,false)];
+ const a1=chooseAttribute(mode,true);
+ let a2=chooseAttribute(mode,false);
+ for(let i=0;i<50 && a1===a2;i++)a2=chooseAttribute(mode,false);
+ if(a1===a2)a2=rand(DATA.attributes.filter(x=>x!==a1));
+ return [a1,a2];
 }
-
-function chooseSituation(mode,tone) {
-  let candidates = DATA.situations.slice();
-  const romance = /(好き|告白|嫉妬|独占|恋人|恋心|会いたい|呼び止め|見つめ|距離|触れ|名前|手|耳元|帰りたくない|帰したくない|秘密)/;
-  const quiet = /(目が合|見つめ|眠|横顔|手|指|袖|髪|名前|無言|視線|隣|飲み物|覚えて|笑)/;
-  const dramatic = /(秘密|身分|告白|喧嘩|涙|泣|追いかけ|別れ|再会|契約|偽装|正体|本音)/;
-  if (mode === "romance") candidates = candidates.filter(x => romance.test(x));
-  if (mode === "work") candidates = candidates.filter(x => /(仕事|職場|名字|上司|部下|同僚|敬語|電話|会議)/.test(x));
-  if (tone === "quiet") candidates = candidates.filter(x => quiet.test(x));
-  if (tone === "dramatic") candidates = candidates.filter(x => dramatic.test(x));
-  if (!candidates.length) candidates = DATA.situations;
-  let x;
-  do { x = rand(candidates); } while(candidates.length > 1 && x === state.lastS);
-  return x;
+function chooseSituation(mode) {
+ let candidates=DATA.situations.slice();
+ if(mode==="romance")candidates=candidates.filter(x=>/(好き|告白|嫉妬|独占|恋人|恋心|会いたい|呼び止め|見つめ|距離|触れ|名前|手|耳元|帰りたくない|帰したくない|秘密)/.test(x));
+ if(mode==="work")candidates=candidates.filter(x=>/(仕事|職場|名字|上司|部下|同僚|敬語|電話|会議)/.test(x));
+ if(!candidates.length)candidates=DATA.situations.slice();
+ const fresh=candidates.filter(x=>x!==state.lastS);
+ return rand(fresh.length?fresh:candidates);
 }
-
 
 const KEY="creativeGachaStudio.v1";
 let history=[], favorites=[], current=null, storageOK=true;
@@ -192,7 +161,7 @@ function notice(text){el("status").textContent=text;}
 function persist(){try{localStorage.setItem(KEY,JSON.stringify({history,favorites}));return true;}catch{storageOK=false;notice("このブラウザでは保存できません。ページを閉じる前に結果をコピーしてください。");return false;}}
 function renderCurrent(){
  if(!current)return;
- const {a1,a2,s,tone}=current;
+ const {a1,a2,s}=current;
  el("tags").replaceChildren();
  for(const [label,value] of [["属性A",a1],["属性B",a2]]){const span=document.createElement("span");span.className="tag hot";span.textContent=label+"："+value;el("tags").append(span);}
  el("result").replaceChildren();
@@ -201,41 +170,48 @@ function renderCurrent(){
  el("saveBtn").textContent=favorites.some(x=>same(x,current))?"★ お気に入り保存済み":"☆ お気に入りに保存";
  el("gachaBtn").textContent="🎲 固定していない要素をガチャる";
  state.lastA1=a1;state.lastA2=a2;state.lastS=s;
+ updateShare();
 }
 function gacha(){
  if(current && ["lockA1","lockA2","lockS"].every(id=>el(id).checked)){notice("すべて固定されています。引き直したい要素の固定を外してください。");return;}
- const mode=el("mode").value,tone=el("tone").value;
+ const mode=el("mode").value;
  let [a1,a2]=choosePair(mode);
  if(current&&el("lockA1").checked)a1=current.a1;
  if(current&&el("lockA2").checked)a2=current.a2;
  if(a1===a2){const choices=DATA.attributes.filter(x=>x!==a1);if(!el("lockA2").checked)a2=rand(choices);else a1=rand(choices);}
- const s=current&&el("lockS").checked?current.s:chooseSituation(mode,tone);
- current={a1,a2,s,tone};history=[current,...history.filter(x=>!same(x,current))].slice(0,20);
- notice("");persist();renderCurrent();renderLists();
+ const s=current&&el("lockS").checked?current.s:chooseSituation(mode);
+ current={a1,a2,s};history=[current,...history.filter(x=>!same(x,current))].slice(0,20);
+ notice("");persist();renderCurrent();
  const p=rand(DATA.products);el("productTitle").textContent=p.label;el("productNote").textContent=p.note;el("productLink").href="https://www.amazon.co.jp/s?k="+encodeURIComponent(p.keyword);
 }
-function renderLists(){
- for(const [id,items,empty] of [["favorites",favorites,"気に入ったお題を☆ボタンで保存できます。"],["history",history,"ガチャを引くと、ここに最新20件が並びます。"]]){
- const root=el(id);root.replaceChildren();
- if(!items.length){const p=document.createElement("p");p.className="empty";p.textContent=empty;root.append(p);}
- items.forEach((item,index)=>{const row=document.createElement("div");row.className="saved-item";const p=document.createElement("p");p.textContent=item.a1+" × "+item.a2+"｜"+item.s;row.append(p);const actions=document.createElement("div");actions.className="saved-actions";const open=document.createElement("button");open.type="button";open.textContent="このお題を使う";open.onclick=()=>{current={...item};for(const id of ["lockA1","lockA2","lockS"])el(id).checked=false;renderCurrent();location.hash="gacha";notice("お題を読み込みました。");};actions.append(open);if(id==="favorites"){const remove=document.createElement("button");remove.type="button";remove.textContent="保存を解除";remove.onclick=()=>{favorites.splice(index,1);persist();renderLists();renderCurrent();};actions.append(remove);}row.append(actions);root.append(row);});
- }
-}
 function pageURL(hash=""){if(!/^https?:$/.test(location.protocol))return "";const url=new URL(location.href);url.search="";url.hash=hash;return url.href;}
-async function shareText(title,text,url){
- const full=text+"\n#創作ガチャスタジオ"+(url?"\n"+url:"");
- try {if(navigator.share){await navigator.share({title,text:text+"\n#創作ガチャスタジオ",...(url?{url}:{})});return;}}catch(e){if(e.name==="AbortError")return;}
- try{await navigator.clipboard.writeText(full);notice("シェア用の文章をコピーしました。");}catch{window.prompt("コピーしてシェアしてください",full);}
+function resultText(){return current?`🎲 今日の創作お題\n${current.a1} × ${current.a2}\n「${current.s}」\n#創作ガチャスタジオ`:"";}
+function fullShareText(){return resultText()+(pageURL()?"\n"+pageURL():"");}
+function updateShare(){
+ if(!current)return;
+ const intent=new URL("https://x.com/intent/tweet");
+ intent.searchParams.set("text",resultText());
+ if(pageURL())intent.searchParams.set("url",pageURL());
+ el("shareX").href=intent.href;
 }
-function shareResult(){if(current)return shareText("創作ガチャスタジオ",`🎲 今日の創作お題\n${current.a1} × ${current.a2}\n「${current.s}」`,pageURL());}
-el("saveBtn").onclick=()=>{if(!current)return;if(favorites.some(x=>same(x,current))){notice("このお題は保存済みです。");return;}if(favorites.length>=100){notice("お気に入りは100件までです。不要なお題の保存を解除してください。");return;}favorites.unshift({...current});if(persist())notice("お気に入りに保存しました。");renderLists();renderCurrent();};
+function shareResult(){if(!current)return;updateShare();el("shareOptions").hidden=!el("shareOptions").hidden;el("shareBtn").setAttribute("aria-expanded",String(!el("shareOptions").hidden));}
+async function copyShare(){try{await navigator.clipboard.writeText(fullShareText());notice("結果・ハッシュタグ・URLをコピーしました。");}catch{window.prompt("コピーして投稿画面に貼り付けてください",fullShareText());}}
+el("copyShare").addEventListener("click",copyShare);
+el("nativeShare").addEventListener("click",async()=>{if(!current)return;try{if(navigator.share){await navigator.share({title:"創作ガチャスタジオ",text:fullShareText()});return;}}catch(e){if(e.name==="AbortError")return;}await copyShare();});
+if(!navigator.share)el("nativeShare").hidden=true;
+el("saveBtn").onclick=()=>{if(!current)return;if(favorites.some(x=>same(x,current))){notice("このお題は保存済みです。");return;}if(favorites.length>=100){notice("お気に入りは100件までです。不要なお題の保存を解除してください。");return;}favorites.unshift({...current});if(persist())notice("お気に入りに保存しました。");renderCurrent();};
 el("gachaBtn").addEventListener("click",gacha);
 el("againBtn").addEventListener("click",gacha);
 el("shareBtn").addEventListener("click",shareResult);
-el("stats").textContent=`属性 ${DATA.attributes.length}種類 ・ シチュエーション ${DATA.situations.length}種類`;
-document.querySelectorAll(".article").forEach((article,index)=>{article.id="article-"+(index+1);const button=document.createElement("button");button.type="button";button.className="article-share";button.textContent="この記事をシェアする";button.onclick=()=>shareText("創作ガチャスタジオ",article.querySelector("summary").textContent,pageURL(article.id));article.append(button);});
-function openArticle(){const target=document.getElementById(location.hash.slice(1));if(target?.classList.contains("article"))target.open=true;}
-window.addEventListener("hashchange",openArticle);openArticle();renderLists();if(!storageOK)notice("このブラウザでは保存を利用できない可能性があります。");
+const total=DATA.attributes.length*(DATA.attributes.length-1)*DATA.situations.length;
+el("stats").textContent=`属性 ${DATA.attributes.length}種類 × シチュエーション ${DATA.situations.length}種類 ＝ ${total.toLocaleString("ja-JP")}通り`;
+function restoreResult(){
+ if(!location.hash.startsWith("#restore="))return;
+ try{const restored=JSON.parse(decodeURIComponent(location.hash.slice(9)));if(!valid(restored))throw new Error("Invalid saved result");current={a1:restored.a1,a2:restored.a2,s:restored.s};for(const id of ["lockA1","lockA2","lockS"])el(id).checked=false;renderCurrent();notice("保存したお題を読み込みました。");window.history.replaceState(null,"","#gacha");}catch{notice("お題を読み込めませんでした。保存したお題のページから開き直してください。");}
+}
+window.addEventListener("hashchange",restoreResult);restoreResult();
+window.addEventListener("storage",e=>{if(e.key!==KEY)return;try{const data=JSON.parse(e.newValue||"{}");favorites=Array.isArray(data.favorites)?data.favorites.filter(valid).slice(0,100):[];history=Array.isArray(data.history)?data.history.filter(valid).slice(0,20):[];renderCurrent();}catch{}});
+if(!storageOK)notice("このブラウザでは保存を利用できない可能性があります。");
 </script>
 </body>
 </html>

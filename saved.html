@@ -1,0 +1,56 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>保存したお題｜創作ガチャスタジオ</title><meta name="description" content="お気に入りと最近の履歴を見返して、創作ガチャを再開。"><style>
+:root{--bg:#fff3f6;--ink:#292725;--muted:#817a73;--card:#fff;--soft:#f5e5eb;--accent:#292725}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif}
+button,select{font:inherit}
+.wrap{max-width:760px;margin:auto;padding:24px 16px 60px}
+header{text-align:center;margin:8px 0 22px}
+.logo{font-size:12px;letter-spacing:.16em;color:var(--muted);margin-bottom:8px}
+h1{font-size:28px;line-height:1.3;margin:0 0 8px;letter-spacing:.03em}
+.sub{color:var(--muted);font-size:14px;line-height:1.6}
+.card{background:var(--card);border-radius:24px;padding:20px;margin:14px 0;box-shadow:0 8px 28px rgba(0,0,0,.06)}
+.controls{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:14px}
+select{width:100%;border:1px solid #ddd5ce;background:#fff;border-radius:14px;padding:12px 14px;color:var(--ink)}
+label{font-size:12px;color:var(--muted);display:block;margin:0 0 5px}
+.tags{text-align:center;min-height:40px}
+.tag{display:inline-block;background:var(--soft);border-radius:999px;padding:7px 11px;font-size:12px;margin:3px}
+.tag.hot{background:#292725;color:#fff}
+.result{font-size:20px;line-height:1.85;text-align:center;min-height:190px;display:flex;flex-direction:column;justify-content:center;padding:10px 2px}
+.result .small{font-size:12px;color:var(--muted);margin-bottom:8px}
+.scene{font-weight:650}
+.detail{font-size:13px;color:var(--muted);margin-top:10px;line-height:1.65}
+button{width:100%;border:0;border-radius:999px;padding:15px 20px;font-size:16px;font-weight:750;cursor:pointer;background:var(--ink);color:#fff;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+button:active{transform:scale(.985)}
+.secondary{background:var(--soft);color:var(--ink);margin-top:10px}
+.share{background:#fff;color:var(--ink);border:1px solid #ddd5ce;margin-top:10px}
+.product{display:flex;gap:14px;align-items:center}
+.product-icon{width:58px;height:58px;border-radius:14px;background:var(--soft);display:grid;place-items:center;font-size:25px;flex:none}
+.product h2{font-size:16px;margin:0 0 5px}
+.product p{font-size:13px;color:var(--muted);margin:0 0 10px}
+.product a{color:#555;text-decoration:underline;font-size:13px}
+.tip{font-size:13px;line-height:1.8;color:#555}
+.stats{font-size:11px;color:#999;text-align:center;margin-top:10px}
+.notice{background:#faf8f6;border-radius:16px;padding:13px;font-size:12px;line-height:1.7;color:#777}
+footer{font-size:11px;color:#8c8580;line-height:1.7;margin-top:24px}
+@media(min-width:600px){.controls{grid-template-columns:1fr 1fr}}
+
+:root{--bg:#fff3f6;--ink:#292725;--muted:#68625d;--soft:#f5e5eb;--accent:#9b3f62}
+html{scroll-behavior:smooth;scroll-padding-top:78px}body{font-size:16px;line-height:1.7}.wrap{max-width:860px;padding-top:28px}header{text-align:center;border-bottom:2px solid var(--ink);padding:0 0 22px;margin-bottom:0}h1{font-size:clamp(25px,5vw,38px);letter-spacing:-.03em}.logo{font-size:12px;color:var(--accent);font-weight:800}.sub{font-size:16px;margin-top:12px}nav{display:flex;gap:8px;position:sticky;top:0;background:var(--bg);z-index:2;padding:12px 0;flex-wrap:wrap}nav a{font-size:14px;color:var(--ink);text-decoration:none;padding:7px 12px;border:1px solid #d5cdc4;border-radius:999px}nav a:hover{background:var(--ink);color:white}.card{border:1px solid #ded7cf;border-radius:18px;box-shadow:none;padding:24px;margin:18px 0}#gacha{border-top:5px solid var(--accent)}.section-label{font-size:12px;color:var(--accent);letter-spacing:.09em;font-weight:bold;margin-bottom:16px}label,.tag,.detail,.result .small,.tip,.product p,.product a{font-size:14px}label{color:var(--muted)}.locks{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}.locks label{display:flex;align-items:center;gap:6px;background:#fbeef3;padding:9px;border-radius:9px;color:var(--ink)}input[type=checkbox]{width:18px;height:18px;accent-color:var(--accent)}.result{min-height:200px;background:#fff5f8;border-radius:12px;padding:20px 12px;margin-bottom:18px}.scene{font-size:clamp(20px,4vw,26px);line-height:1.7}.tag.hot{background:var(--ink)}#gachaBtn{background:var(--accent)}button:disabled{opacity:.45;cursor:not-allowed}button:focus-visible,a:focus-visible,summary:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid #1d7088;outline-offset:3px}[hidden]{display:none!important}.stats,footer{font-size:12px;color:var(--muted)}#status{font-size:14px;color:var(--accent);margin:10px 0 0}h2{font-size:22px;margin:0 0 14px}h3{font-size:16px;margin:20px 0 8px}.saved-item{padding:14px 0;border-bottom:1px solid #e0d9d0}.saved-item p{margin:0 0 8px;overflow-wrap:anywhere}.saved-actions{display:flex;gap:8px}.saved-actions button{width:auto;padding:8px 14px;font-size:14px;background:var(--soft);color:var(--ink)}.empty{color:var(--muted);font-size:14px}.article{border-top:1px solid #ded7cf;padding:18px 0}.article summary{font-size:16px;font-weight:700;cursor:pointer}.article-body{padding:4px 4px 0;line-height:1.95}.article-body p{font-size:16px}.article-share{font-size:14px;background:var(--soft);color:var(--ink);margin-top:14px}footer{text-align:center;padding:20px 0}@media(max-width:480px){.wrap{padding:18px 12px 40px}.card{padding:18px}nav{gap:5px}nav a{padding:6px 9px}.locks{gap:5px}.locks label{font-size:13px;padding:8px 6px}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}button:active{transform:none}}
+.article-link{display:block;padding:18px 0;border-top:1px solid #ded7cf;color:#8d3055;font-size:16px;font-weight:bold;line-height:1.8;text-underline-offset:4px}.controls{grid-template-columns:1fr}nav{justify-content:center}.share-options{border:1px solid #e1c9d2;border-radius:14px;padding:14px;margin-top:12px;background:#fff5f8}.share-options a{display:block;text-align:center;background:#292725;color:white;text-decoration:none;padding:12px;border-radius:999px;font-weight:bold}.share-options button{margin-top:10px;background:var(--soft);color:var(--ink);font-size:14px}.count-note{font-size:12px}#stats{font-size:14px;color:#8d3055;font-weight:bold}.saved-actions a{padding:8px 14px;font-size:14px;background:var(--soft);border-radius:999px;color:var(--ink);text-decoration:none}</style></head><body><div class="wrap"><header><div class="logo">CREATIVE GACHA STUDIO</div><h1>保存したお題</h1><p class="sub">気になった瞬間を、もう一度。</p></header><nav aria-label="メインメニュー"><a href="index.html#gacha">ガチャ</a><a href="saved.html" aria-current="page">保存したお題</a><a href="index.html#articles">創作記事</a><a href="index.html#guide">使い方</a></nav><main><p id="status" role="status"></p><section class="card"><h2>お気に入り</h2><div id="favorites"></div></section><section class="card"><h2>最近の履歴</h2><div id="history"></div></section><p class="tip">お気に入りは最大100件、履歴は最新20件を、このブラウザに保存します。別の端末とは同期されません。ブラウザのデータを消すと、お題も消えます。</p></main><footer>創作ガチャスタジオ</footer></div><script>
+"use strict";
+const KEY="creativeGachaStudio.v1";
+let favorites=[],history=[];
+const el=id=>document.getElementById(id);
+const valid=x=>x && typeof x.a1==="string" && typeof x.a2==="string" && typeof x.s==="string";
+const same=(a,b)=>a.a1===b.a1&&a.a2===b.a2&&a.s===b.s;
+function load(){try{const data=JSON.parse(localStorage.getItem(KEY)||"{}");favorites=Array.isArray(data.favorites)?data.favorites.filter(valid).slice(0,100):[];history=Array.isArray(data.history)?data.history.filter(valid).slice(0,20):[];}catch{el("status").textContent="保存したお題を読み込めません。このブラウザで保存が許可されているか確認してください。";}}
+function renderLists(){
+ for(const [id,items,empty] of [["favorites",favorites,"お気に入りはまだありません。ガチャの☆ボタンで保存できます。"],["history",history,"履歴はまだありません。ガチャを引くとここに並びます。"]]){
+ const root=el(id);root.replaceChildren();
+ if(!items.length){const p=document.createElement("p");p.className="empty";p.textContent=empty;root.append(p);}
+ items.forEach(item=>{const row=document.createElement("div");row.className="saved-item";const p=document.createElement("p");p.textContent=item.a1+" × "+item.a2+"｜"+item.s;row.append(p);const actions=document.createElement("div");actions.className="saved-actions";const open=document.createElement("a");open.textContent="このお題を使う";open.href="index.html#restore="+encodeURIComponent(JSON.stringify({a1:item.a1,a2:item.a2,s:item.s}));actions.append(open);if(id==="favorites"){const remove=document.createElement("button");remove.type="button";remove.textContent="保存を解除";remove.onclick=()=>{load();favorites=favorites.filter(x=>!same(x,item));try{localStorage.setItem(KEY,JSON.stringify({history,favorites}));el("status").textContent="お気に入りの保存を解除しました。";}catch{el("status").textContent="変更を保存できませんでした。";load();}renderLists();};actions.append(remove);}row.append(actions);root.append(row);});
+ }
+}
+load();renderLists();window.addEventListener("storage",e=>{if(e.key===KEY){load();renderLists();}});
+</script></body></html>
