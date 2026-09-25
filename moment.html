@@ -62,7 +62,7 @@ if(window.gachaStartAtTop){
  window.addEventListener("pageshow",()=>{window.scrollTo({top:0,left:0,behavior:"instant"});});
 }
 </script>
-</head>
+<link rel="stylesheet" href="site-info.css"></head>
 <body>
 <div class="wrap">
 <header>
@@ -106,12 +106,12 @@ if(window.gachaStartAtTop){
 <div>
 <h2 id="productTitle">今日の創作のおとも</h2>
 <p id="productNote">構図・表情・ポーズなど、創作に役立つ資料を探そう。</p>
-<a id="productLink" href="https://www.amazon.co.jp/s?k=漫画+描き方+本" target="_blank" rel="noopener noreferrer">Amazonで関連商品を見る →</a>
+<a id="productLink" href="https://www.amazon.co.jp/s?k=漫画+描き方+本" target="_blank" rel="noopener noreferrer">Amazonで関連商品を見る →</a><a id="productRakutenLink" class="rakuten-search-link" style="display:block;margin-top:12px" href="https://search.rakuten.co.jp/search/mall/%E6%BC%AB%E7%94%BB%20%E6%8F%8F%E3%81%8D%E6%96%B9%20%E6%9C%AC/" target="_blank" rel="noopener noreferrer">楽天市場で関連商品を見る →</a>
 </div>
 </div>
 </section>
 
-<section class="card"><h2>描きはじめるヒント</h2><p class="tip">性格・関係性・構図など、20記事から今の創作に合うヒントを。</p><a class="article-link" href="index.html#articles">創作記事を読む</a></section><footer>創作ガチャスタジオ<br>漫画・小説・イラストのアイデア探しに。<br>掲載しているAmazonリンクは、関連資料の検索ページへのリンクです。</footer>
+<section class="card"><h2>描きはじめるヒント</h2><p class="tip">漫画・イラスト・小説の全28記事から、今の創作に合うヒントを。</p><a class="article-link" href="index.html#articles">創作記事を読む</a></section><footer class="site-footer"><div class="footer-links" aria-label="サイトの運営情報"><a href="about.html">このサイトについて</a><a href="contact.html">お問い合わせ</a><a href="privacy.html">プライバシーポリシー</a><a href="terms.html">利用案内・免責事項</a><a href="advertising.html">広告・紹介方針</a></div><p>創作ガチャスタジオ · 管理人：はなち</p></footer>
 </div>
 
 <script>
@@ -189,7 +189,7 @@ function gacha(){
  const s=current&&el("lockS").checked?current.s:chooseSituation(mode);
  current={a1,a2,s};history=[current,...history.filter(x=>!same(x,current))].slice(0,20);
  notice("");persist();renderCurrent();
- const p=rand(DATA.products);el("productTitle").textContent=p.label;el("productNote").textContent=p.note;el("productLink").href="https://www.amazon.co.jp/s?k="+encodeURIComponent(p.keyword);
+ const p=rand(DATA.products);el("productTitle").textContent=p.label;el("productNote").textContent=p.note;el("productLink").href="https://www.amazon.co.jp/s?k="+encodeURIComponent(p.keyword);el("productRakutenLink").href="https://search.rakuten.co.jp/search/mall/"+encodeURIComponent(p.keyword)+"/";
 }
 function pageURL(hash=""){if(!/^https?:$/.test(location.protocol))return "";const url=new URL(location.href);url.search="";url.hash=hash;return url.href;}
 function resultText(){return current?`🎲 今日の創作ガチャ\n\n${current.a1} × ${current.a2}\n「${current.s}」\n\nあなたなら、どの瞬間を描く？\n#創作ガチャスタジオ`:"";}
