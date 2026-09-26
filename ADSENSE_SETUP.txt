@@ -1,0 +1,20 @@
+AdSense確認用メタタグとトップページの設定
+
+1. このZIP直下のindex.htmlを、既存のCreative-gachaリポジトリに上書きします。
+   privacy.htmlとadvertising.htmlも未更新なら上書きしてください。
+2. GitHubで、所有者cgshnc・リポジトリ名cgshnc.github.ioの公開リポジトリを作成します。
+   同名リポジトリが既にある場合は新規作成せず、既存ファイルとPages設定を確認してください。
+3. このZIPのgithub-rootフォルダの「中にあるindex.html」を、新しいリポジトリの一番上にアップロードします。
+   フォルダごとアップロードしないでください。Creative-gachaのindex.htmlとは別のファイルです。
+4. 新しいリポジトリのSettings（設定）→Pagesで、SourceをDeploy from a branch、
+   Branchをmain、フォルダを/(root)に設定してSaveします。
+5. 公開後、https://cgshnc.github.io/ を開きます。
+   創作ガチャスタジオのトップと記事一覧が表示され、ガチャ・記事・運営情報へのリンクが開くことを確認してください。
+6. AdSenseに戻り、メタタグの確認→審査をリクエストへ進みます。
+
+両方のindex.htmlに、指定のメタタグをhead内に1回ずつ設置済みです。
+メタタグ自体は広告を配信しません。広告配信用スクリプト、ads.txtは今回追加していません。
+github-root/index.htmlは、既存サイトのCSSを読み込み、ガチャと記事は/Creative-gacha/にリンクします。
+このため既存のCreative-gachaリポジトリは残してください。移転やリポジトリ名の変更は不要です。
+今後トップの内容を変えた場合は、両方のindex.htmlを更新してください。
+サイトの確認成功は、AdSenseの審査合格を保証するものではありません。
