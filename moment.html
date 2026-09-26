@@ -91,7 +91,7 @@ if(window.gachaStartAtTop){
 <div class="scene">ボタンを押して、今日の「描きたい瞬間」を引こう。</div>
 </div>
 
-<button id="gachaBtn" type="button">🎲 「描きたい瞬間」をガチャる</button>
+<button id="gachaBtn" type="button">🎲 「描きたい瞬間」をガチャる</button><p class="lock-guidance" id="lockGuidance">気に入った要素が出たら、固定してもう一度。</p>
 <button id="againBtn" type="button" class="secondary" hidden>もう一回ガチャる</button>
 <button id="saveBtn" type="button" class="secondary" disabled>☆ お気に入りに保存</button>
 <button id="shareBtn" type="button" disabled class="share" aria-expanded="false" aria-controls="shareOptions">結果をシェアする</button>
@@ -106,7 +106,7 @@ if(window.gachaStartAtTop){
 <div>
 <h2 id="productTitle">今日の創作のおとも</h2>
 <p id="productNote">構図・表情・ポーズなど、創作に役立つ資料を探そう。</p>
-<a id="productLink" href="https://www.amazon.co.jp/s?k=漫画+描き方+本" target="_blank" rel="noopener noreferrer">Amazonで関連商品を見る →</a><a id="productRakutenLink" class="rakuten-search-link" style="display:block;margin-top:12px" href="https://search.rakuten.co.jp/search/mall/%E6%BC%AB%E7%94%BB%20%E6%8F%8F%E3%81%8D%E6%96%B9%20%E6%9C%AC/" target="_blank" rel="noopener noreferrer">楽天市場で関連商品を見る →</a>
+<a id="productLink" href="https://www.amazon.co.jp/s?k=漫画+描き方+本" target="_blank" rel="noopener noreferrer">Amazonで関連商品を見る →</a>
 </div>
 </div>
 </section>
@@ -189,7 +189,7 @@ function gacha(){
  const s=current&&el("lockS").checked?current.s:chooseSituation(mode);
  current={a1,a2,s};history=[current,...history.filter(x=>!same(x,current))].slice(0,20);
  notice("");persist();renderCurrent();
- const p=rand(DATA.products);el("productTitle").textContent=p.label;el("productNote").textContent=p.note;el("productLink").href="https://www.amazon.co.jp/s?k="+encodeURIComponent(p.keyword);el("productRakutenLink").href="https://search.rakuten.co.jp/search/mall/"+encodeURIComponent(p.keyword)+"/";
+ const p=rand(DATA.products);el("productTitle").textContent=p.label;el("productNote").textContent=p.note;el("productLink").href="https://www.amazon.co.jp/s?k="+encodeURIComponent(p.keyword);
 }
 function pageURL(hash=""){if(!/^https?:$/.test(location.protocol))return "";const url=new URL(location.href);url.search="";url.hash=hash;return url.href;}
 function resultText(){return current?`🎲 今日の創作ガチャ\n\n${current.a1} × ${current.a2}\n「${current.s}」\n\nあなたなら、どの瞬間を描く？\n#創作ガチャスタジオ`:"";}
@@ -253,5 +253,5 @@ window.addEventListener("hashchange",restoreResult);restoreResult();
 window.addEventListener("storage",e=>{if(e.key!==KEY)return;try{const data=JSON.parse(e.newValue||"{}");favorites=Array.isArray(data.favorites)?data.favorites.filter(valid).slice(0,100):[];history=Array.isArray(data.history)?data.history.filter(valid).slice(0,20):[];renderCurrent();}catch{}});
 if(!storageOK)notice("このブラウザでは保存を利用できない可能性があります。");
 </script>
-</body>
+<script src="lock-ui.js"></script></body>
 </html>
