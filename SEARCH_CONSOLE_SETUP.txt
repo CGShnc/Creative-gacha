@@ -1,18 +1,35 @@
-Google Search Consoleへの登録手順
+2026年10月9日 更新版：アップロードとサイトマップの手順
 
-1. ZIP直下のindex.htmlとsitemap.xmlを、既存のCreative-gachaリポジトリの一番上へアップロードします。
-2. ZIP内のgithub-root/index.htmlは、cgshnc.github.ioリポジトリの一番上のindex.htmlへ上書きします。
-   フォルダごとアップロードしないでください。
-3. 公開が完了したら、Search ConsoleのHTMLタグ確認画面で「確認」を押します。
-   登録するURLプレフィックスは https://cgshnc.github.io/Creative-gacha/ です。
-4. 「サイトマップ」で https://cgshnc.github.io/Creative-gacha/sitemap.xml を送信します。
-   入力欄にサイトURLがあらかじめ表示される場合、sitemap.xmlだけ入力してください。
-5. 「URL検査」に https://cgshnc.github.io/Creative-gacha/ を入力し、
-   未登録の場合は「インデックス登録をリクエスト」を選択します。
+HTMLを編集する必要はありません。ZIPを解凍してからアップロードします。
 
-確認タグは確認完了後も削除せず、AdSenseのタグと両方残してください。
-サイトマップには公開コンテンツ46ページを記載しています。
-個人のブラウザに保存したお題を表示するsaved.htmlと、重複するドメイントップは掲載していません。
-robots.txtがないこと自体はクロール禁止を意味しないため、今回新設していません。
-新しい記事・ガチャを公開するときはsitemap.xmlも更新してください。
-検索登録や表示順位、反映時期はGoogleの判断によります。
+1）Creative-gacha リポジトリ
+ZIPの一番上にある .html / .css / .js ファイルと sitemap.xml を上書きしてください。
+github-root フォルダと説明用 .txt ファイルは、このリポジトリへのアップロード不要です。
+
+2）cgshnc.github.io リポジトリ
+github-root フォルダの中の全5ファイルを、一番上の階層にアップロードしてください。
+index.html、favicon.png、apple-touch-icon.png、sitemap.xml、robots.txt です。
+フォルダごとではなく、中身をアップロードしてください。
+以前はドメイン直下の sitemap.xml が404でした。この配置でその問題を解消します。
+
+3）公開後、Safariで以下のURLを開く
+https://cgshnc.github.io/Creative-gacha/sitemap.xml
+https://cgshnc.github.io/sitemap.xml
+両方で404ではなくXMLの文字やURL一覧が見えることを確認します。
+https://cgshnc.github.io/robots.txt ではSitemapの行が表示されます。
+
+4）Search Consoleに送信
+左上で https://cgshnc.github.io/Creative-gacha/ のプロパティを選びます。
+「サイトマップ」で、入力欄の前にこのURLが表示されていたら sitemap.xml と入力。
+URL全体を入力する形式なら https://cgshnc.github.io/Creative-gacha/sitemap.xml を入力。
+ドメイン直下 https://cgshnc.github.io/ のプロパティを使う場合は、sitemap.xml でも取得できます。
+先頭に / は不要です。既存の登録があっても、正しいURLを再送信できます。
+
+今回のファイルだけでSearch Console内の登録状態は変更できません。
+まだ「取得できませんでした」となる場合は、該当行を押し、詳細URL・エラー内容・最終読み込み日時が分かる画面を確認してください。
+XMLの取得成功と、全ページの検索登録は別です。検索登録・順位は保証されません。
+
+変更内容：Amazonへの案内・リンクを削除。広告方針・プライバシーを更新。
+全10ガチャページへ「ガチャ内容は随時更新しています。」を追加。
+描きたい瞬間ガチャの属性数・シチュエーション数の表示を削除（お題の内容は保持）。
+既存の確認タグ、ピンクのアイコン、保存・固定・シェア機能は保持。

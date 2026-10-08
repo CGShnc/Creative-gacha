@@ -72,8 +72,8 @@ if(window.gachaStartAtTop){
 <div class="logo">CREATIVE GACHA STUDIO</div>
 <h1>描きたい瞬間ガチャ</h1>
 <div class="sub"><strong class="main-copy">「この瞬間、描きたい！」を見つける。</strong><br>二人の「描きたい瞬間」が見つかる創作ガチャ。<br><span class="formula">属性Aキャラ × 属性Bキャラ × シチュエーション</span></div>
-<div class="stats" id="stats"><span class="stats-types"><span id="attributeCount"></span><span aria-hidden="true">・</span><span id="situationCount"></span></span></div>
-</header>
+
+<p class="gacha-update-note">ガチャ内容は随時更新しています。</p></header>
 <nav aria-label="メインメニュー"><a href="index.html">トップ</a><a href="primary.html">一次創作</a><a href="secondary.html">二次創作</a><a href="saved.html">保存したお題</a><a href="index.html#articles">創作記事</a></nav>
 
 <section class="card" id="gacha">
@@ -103,16 +103,7 @@ if(window.gachaStartAtTop){
 <div id="imagePanel" class="result-image" hidden><img id="imagePreview" alt=""><a id="downloadImage" download="creative-gacha-result.png">画像を保存する</a><button id="shareImage" type="button" class="secondary" hidden>画像をアプリに共有する</button><p>保存した画像を、Xの投稿画面で添付できます。</p></div><p id="status" role="status"></p>
 </section>
 
-<section class="card">
-<div class="product">
-<div class="product-icon">✏️</div>
-<div>
-<h2 id="productTitle">今日の創作のおとも</h2>
-<p id="productNote">構図・表情・ポーズなど、創作に役立つ資料を探そう。</p>
-<a id="productLink" href="https://www.amazon.co.jp/s?k=漫画+描き方+本" target="_blank" rel="noopener noreferrer">Amazonで関連商品を見る →</a>
-</div>
-</div>
-</section>
+
 
 <section class="card"><h2>描きはじめるヒント</h2><p class="tip">漫画・イラスト・小説の全28記事から、今の創作に合うヒントを。</p><a class="article-link" href="index.html#articles">創作記事を読む</a></section><footer class="site-footer"><div class="footer-links" aria-label="サイトの運営情報"><a href="about.html">このサイトについて</a><a href="contact.html">お問い合わせ</a><a href="privacy.html">プライバシーポリシー</a><a href="terms.html">利用案内・免責事項</a><a href="advertising.html">広告・紹介方針</a></div><p>創作ガチャスタジオ · 管理人：はなち</p></footer>
 </div>
@@ -192,7 +183,6 @@ function gacha(){
  const s=current&&el("lockS").checked?current.s:chooseSituation(mode);
  current={a1,a2,s};history=[current,...history.filter(x=>!same(x,current))].slice(0,20);
  notice("");persist();renderCurrent();
- const p=rand(DATA.products);el("productTitle").textContent=p.label;el("productNote").textContent=p.note;el("productLink").href="https://www.amazon.co.jp/s?k="+encodeURIComponent(p.keyword);
 }
 function pageURL(hash=""){if(!/^https?:$/.test(location.protocol))return "";const url=new URL(location.href);url.search="";url.hash=hash;return url.href;}
 function resultText(){return current?`🎲 今日の創作ガチャ\n\n${current.a1} × ${current.a2}\n「${current.s}」\n\nあなたなら、どの瞬間を描く？\n#創作ガチャスタジオ`:"";}
@@ -213,8 +203,6 @@ el("saveBtn").onclick=()=>{if(!current)return;if(favorites.some(x=>same(x,curren
 el("gachaBtn").addEventListener("click",gacha);
 el("againBtn").addEventListener("click",gacha);
 el("shareBtn").addEventListener("click",shareResult);
-el("attributeCount").textContent=`属性 ${DATA.attributes.length}種類`;
-el("situationCount").textContent=`シチュエーション ${DATA.situations.length}種類`;
 
 let resultImageURL=null,resultImageFile=null;
 function resetImage(){if(resultImageURL)URL.revokeObjectURL(resultImageURL);resultImageURL=null;resultImageFile=null;el("imagePanel").hidden=true;el("imagePreview").removeAttribute("src");el("downloadImage").removeAttribute("href");el("shareImage").hidden=true;}
