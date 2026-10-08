@@ -1,0 +1,18 @@
+Google Search Consoleへの登録手順
+
+1. ZIP直下のindex.htmlとsitemap.xmlを、既存のCreative-gachaリポジトリの一番上へアップロードします。
+2. ZIP内のgithub-root/index.htmlは、cgshnc.github.ioリポジトリの一番上のindex.htmlへ上書きします。
+   フォルダごとアップロードしないでください。
+3. 公開が完了したら、Search ConsoleのHTMLタグ確認画面で「確認」を押します。
+   登録するURLプレフィックスは https://cgshnc.github.io/Creative-gacha/ です。
+4. 「サイトマップ」で https://cgshnc.github.io/Creative-gacha/sitemap.xml を送信します。
+   入力欄にサイトURLがあらかじめ表示される場合、sitemap.xmlだけ入力してください。
+5. 「URL検査」に https://cgshnc.github.io/Creative-gacha/ を入力し、
+   未登録の場合は「インデックス登録をリクエスト」を選択します。
+
+確認タグは確認完了後も削除せず、AdSenseのタグと両方残してください。
+サイトマップには公開コンテンツ46ページを記載しています。
+個人のブラウザに保存したお題を表示するsaved.htmlと、重複するドメイントップは掲載していません。
+robots.txtがないこと自体はクロール禁止を意味しないため、今回新設していません。
+新しい記事・ガチャを公開するときはsitemap.xmlも更新してください。
+検索登録や表示順位、反映時期はGoogleの判断によります。
