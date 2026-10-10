@@ -5,7 +5,7 @@ const $=id=>document.getElementById(id),page=document.body.dataset.page,DATA=win
 const GENERATORS=DATA.generators||{};
 const labels={appearance:'外見ガチャ',pair:'ふたりガチャ',couple:'推しカプガチャ',moment:'描きたい瞬間'};
 Object.entries(GENERATORS).forEach(([key,value])=>labels[key]=value.title);
-const invitation=k=>k==='deep'?'あなたのキャラなら、どう答える？':k==='composition'?'あなたなら、どんな一枚にする？':['appearance','character','name'].includes(k)?'あなたなら、どんなキャラにする？':k==='world'?'あなたなら、どんな物語にする？':'あなたなら、どの瞬間を描く？';
+const invitation=k=>k==='deep'?'あなたのキャラなら、どう答える？':k==='composition'?'あなたなら、どんな一枚にする？':['appearance','character','name','face','fantasy'].includes(k)?'あなたなら、どんなキャラにする？':k==='world'?'あなたなら、どんな物語にする？':'あなたなら、どの瞬間を描く？';
 let current=null,imageURL=null,imageFile=null,revision=0;
 const valid=x=>x&&(['appearance','pair','couple'].includes(x.kind)||Object.hasOwn(GENERATORS,x.kind))&&Array.isArray(x.fields)&&x.fields.length===(x.kind==='appearance'?6:GENERATORS[x.kind]?Object.keys(GENERATORS[x.kind].fields).length:2)&&x.fields.every(f=>f&&typeof f.label==='string'&&typeof f.value==='string'&&f.value.length<500)&&(x.kind!=='name'||x.gender===undefined||['all','male','female'].includes(x.gender))&&(x.kind!=='name'||x.locale===undefined||['jp','en'].includes(x.locale))&&Array.isArray(x.names)&&x.names.length<=2&&x.names.every(n=>typeof n==='string'&&n.length<=40);
 const fullName=x=>x.kind==='name'?(x.locale==='en'?[x.fields[1],x.fields[0]]:x.fields).map(f=>f.value.split('（')[0]).join(x.locale==='en'?'・':' '):'';
@@ -14,7 +14,25 @@ const signature=x=>JSON.stringify([x.kind,x.names,x.fields,x.kind==='name'?(x.lo
 function status(t){$('status').textContent=t;}
 function read(key=KEY){try{const d=JSON.parse(localStorage.getItem(key)||'{}'),v=key===KEY?valid:legacyValid;return {favorites:Array.isArray(d.favorites)?d.favorites.filter(v).slice(0,100):[],history:Array.isArray(d.history)?d.history.filter(v).slice(0,20):[]};}catch{status('保存データを読み込めません。このブラウザの保存設定を確認してください。');return {favorites:[],history:[]};}}
 function write(d,key=KEY){try{localStorage.setItem(key,JSON.stringify(d));return true;}catch{status('保存できませんでした。ページを閉じる前に投稿文をコピーしてください。');return false;}}
-function pick(items,previous){const choices=items.filter(x=>x!==previous);return choices[Math.floor(Math.random()*choices.length)]||items[0];}
+const recentPicks=new WeakMap();
+function pick(items,previous){
+ const recent=recentPicks.get(items)||[],limit=Math.min(10,Math.max(0,items.length-2));
+ let choices=items.filter(x=>x!==previous&&!recent.includes(x));
+ if(!choices.length)choices=items.filter(x=>x!==previous);
+ const value=choices[Math.floor(Math.random()*choices.length)]||items[0];
+ recentPicks.set(items,[value,...recent.filter(x=>x!==value)].slice(0,limit));return value;
+}
+function faceHair(old){
+ const frontLocked=!!old&&$('lock-bangs').checked,backLocked=!!old&&$('lock-backhair').checked;
+ const wasWhole=!!old&&old.fields[1].value.startsWith('一体型：');
+ const mode=$('hairMode').value||'auto';
+ const whole=frontLocked||backLocked?wasWhole:mode==='whole'||(mode==='auto'&&Math.random()<0.16);
+ if(whole){
+  const style=(frontLocked||backLocked)?old.fields[1].value:'一体型：'+pick(DATA.faceWholeHair,wasWhole?old.fields[1].value.slice(4):undefined);
+  return [style,'一体型のため、前髪の欄とセット'];
+ }
+ return [frontLocked?old.fields[1].value:pick(GENERATORS.face.fields.bangs.items,old?.fields[1]?.value),backLocked?old.fields[2].value:pick(GENERATORS.face.fields.backhair.items,old?.fields[2]?.value)];
+}
 function kind(){return page==='fanfiction'?document.querySelector('[data-kind][aria-pressed="true"]').dataset.kind:page;}
 function clearImage(){if(imageURL)URL.revokeObjectURL(imageURL);imageURL=null;imageFile=null;$('imagePanel').hidden=true;$('preview').removeAttribute('src');$('download').removeAttribute('href');}
 function reset(){revision++;current=null;$('resultFields').replaceChildren();$('empty').hidden=false;for(const id of ['save','share'])$(id).disabled=true;$('shareOptions').hidden=true;$('share').setAttribute('aria-expanded','false');clearImage();status('');}
@@ -36,6 +54,10 @@ function draw(){
  const old=current,fields=[];
  if(k==='appearance'){Object.entries(DATA.appearance).forEach(([id,data],i)=>{fields.push({label:data.label,value:old&&$('lock-'+id).checked?old.fields[i].value:pick(data.items,old?.fields[i]?.value)});});}
  else if(k==='name'){const pool={...DATA.namePools[$('nameLocale').value]};if($('nameLocale').value==='jp'&&$('nameGender').value!=='all')pool.given=pool[$('nameGender').value];['surname','given'].forEach((id,i)=>fields.push({label:i===0?'苗字':'名前',value:old&&$('lock-'+id).checked?old.fields[i].value:pick(pool[id],old?.fields[i]?.value)}));}
+ else if(k==='face'){
+  const hair=faceHair(old);
+  Object.entries(GENERATORS.face.fields).forEach(([id,data],i)=>fields.push({label:data.label,value:i===1?hair[0]:i===2?hair[1]:old&&$('lock-'+id).checked?old.fields[i].value:pick(data.items,old?.fields[i]?.value)}));
+ }
  else if(GENERATORS[k]){Object.entries(GENERATORS[k].fields).forEach(([id,data],i)=>fields.push({label:data.label,value:old&&$('lock-'+id).checked?old.fields[i].value:pick(data.items,old?.fields[i]?.value)}));}
  else{const relations=k==='pair'?DATA.pairRelations:DATA.coupleRelations,scenes=k==='pair'?DATA.pairScenes:DATA.coupleScenes;fields.push({label:'関係性',value:old&&$('lock-relation').checked?old.fields[0].value:pick(relations,old?.fields[0]?.value)},{label:'シチュエーション',value:old&&$('lock-scene').checked?old.fields[1].value:pick(scenes,old?.fields[1]?.value)});}
  const names=k==='appearance'?[]:GENERATORS[k]?(GENERATORS[k].name?[$('nameA').value.trim()||GENERATORS[k].name]:[]):[$('nameA').value.trim()||'A',$('nameB').value.trim()||'B'];
@@ -65,5 +87,17 @@ $('draw').addEventListener('click',draw);$('save').addEventListener('click',()=>
 $('share').addEventListener('click',()=>{$('shareOptions').hidden=!$('shareOptions').hidden;$('share').setAttribute('aria-expanded',String(!$('shareOptions').hidden));});$('copy').addEventListener('click',copy);$('makeImage').addEventListener('click',makeImage);$('nativeShare').hidden=!navigator.share;$('nativeShare').addEventListener('click',async()=>{try{await navigator.share({title:'創作ガチャスタジオ',text:fullText()});}catch(e){if(e.name!=='AbortError')copy();}});$('shareImage').addEventListener('click',async()=>{if(!imageFile)return;try{await navigator.share({files:[imageFile],title:'創作ガチャスタジオ',text:fullText()});}catch(e){if(e.name!=='AbortError')status('画像を保存して、投稿画面で添付してください。');}});
 document.querySelectorAll('[data-kind]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-kind]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));reset();}));for(const id of ['nameA','nameB'])if($(id))$(id).addEventListener('input',reset);
 if($('nameLocale')){const changeNameOptions=()=>{$('nameGenderGroup').hidden=$('nameLocale').value!=='jp';document.querySelectorAll('[data-lock]').forEach(x=>x.checked=false);reset();};$('nameLocale').addEventListener('change',changeNameOptions);$('nameGender').addEventListener('change',changeNameOptions);}
+if(page==='face'){
+ for(const id of ['bangs','backhair'])$('lock-'+id).addEventListener('change',()=>{
+  if(current&&current.fields[1].value.startsWith('一体型：')){
+   $('lock-bangs').checked=$('lock-'+id).checked;$('lock-backhair').checked=$('lock-'+id).checked;
+   render();
+  }
+ });
+ $('hairMode').addEventListener('change',()=>{
+  $('lock-bangs').checked=false;$('lock-backhair').checked=false;
+  if(current)render();status('次のガチャから髪型の出し方を変更します。ほかの固定項目はそのままです。');
+ });
+}
 restore();window.addEventListener('hashchange',restore);window.addEventListener('pageshow',()=>{if(current)render();});window.addEventListener('storage',()=>{if(current)render();});
 })();
