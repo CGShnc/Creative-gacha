@@ -25,11 +25,10 @@ function pick(items,previous){
 function faceHair(old){
  const frontLocked=!!old&&$('lock-bangs').checked,backLocked=!!old&&$('lock-backhair').checked;
  const wasWhole=!!old&&old.fields[1].value.startsWith('一体型：');
- const mode=$('hairMode').value||'auto';
- const whole=frontLocked||backLocked?wasWhole:mode==='whole'||(mode==='auto'&&Math.random()<0.16);
+ const whole=frontLocked||backLocked?wasWhole:Math.random()<0.16;
  if(whole){
   const style=(frontLocked||backLocked)?old.fields[1].value:'一体型：'+pick(DATA.faceWholeHair,wasWhole?old.fields[1].value.slice(4):undefined);
-  return [style,'一体型のため、前髪の欄とセット'];
+  return [style,style];
  }
  return [frontLocked?old.fields[1].value:pick(GENERATORS.face.fields.bangs.items,old?.fields[1]?.value),backLocked?old.fields[2].value:pick(GENERATORS.face.fields.backhair.items,old?.fields[2]?.value)];
 }
@@ -77,7 +76,7 @@ async function makeImage(){
  const blob=await new Promise((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(Error('PNG')),'image/png'));if(token!==revision)return;clearImage();imageURL=URL.createObjectURL(blob);imageFile=new File([blob],'creative-gacha-'+snapshot.kind+'.png',{type:'image/png'});$('preview').src=imageURL;$('preview').alt=fullText();$('download').href=imageURL;$('download').download=imageFile.name;$('imagePanel').hidden=false;$('shareImage').hidden=!(navigator.canShare&&navigator.canShare({files:[imageFile]}));status('画像を作りました。保存した画像をXの投稿画面にも添付できます。');
  }catch{status('画像を作成できませんでした。投稿文のコピーをご利用ください。');}finally{$('makeImage').disabled=false;}
 }
-function restore(){if(!location.hash.startsWith('#restore='))return;try{const item=JSON.parse(decodeURIComponent(location.hash.slice(9)));if(!valid(item)||(page==='fanfiction'?!['pair','couple'].includes(item.kind):item.kind!==page))throw Error('Invalid');if(page==='fanfiction'){document.querySelectorAll('[data-kind]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.kind===item.kind)));$('nameA').value=item.names[0]||'';$('nameB').value=item.names[1]||'';}else if($('nameA')){$('nameA').value=item.names[0]||'';}if(page==='name'){$('nameLocale').value=item.locale||'jp';$('nameGender').value=item.gender||'all';$('nameGenderGroup').hidden=$('nameLocale').value!=='jp';}document.querySelectorAll('[data-lock]').forEach(x=>x.checked=false);current=item;revision++;clearImage();render();status('保存したお題を読み込みました。');window.history.replaceState(null,'',location.pathname+location.search);}catch{status('お題を読み込めませんでした。保存ページから開き直してください。');}}
+function restore(){if(!location.hash.startsWith('#restore='))return;try{const item=JSON.parse(decodeURIComponent(location.hash.slice(9)));if(!valid(item)||(page==='fanfiction'?!['pair','couple'].includes(item.kind):item.kind!==page))throw Error('Invalid');if(page==='fanfiction'){document.querySelectorAll('[data-kind]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.kind===item.kind)));$('nameA').value=item.names[0]||'';$('nameB').value=item.names[1]||'';}else if($('nameA')){$('nameA').value=item.names[0]||'';}if(page==='name'){$('nameLocale').value=item.locale||'jp';$('nameGender').value=item.gender||'all';$('nameGenderGroup').hidden=$('nameLocale').value!=='jp';}document.querySelectorAll('[data-lock]').forEach(x=>x.checked=false);if(item.kind==='face'){item.fields[1].label='前髪';if(item.fields[1].value.startsWith('一体型：'))item.fields[2].value=item.fields[1].value;}current=item;revision++;clearImage();render();status('保存したお題を読み込みました。');window.history.replaceState(null,'',location.pathname+location.search);}catch{status('お題を読み込めませんでした。保存ページから開き直してください。');}}
 function saved(){
  const data=read(),old=read(LEGACY);for(const id of ['favorites','history']){const root=$(id);root.replaceChildren();const items=[...data[id].map(x=>({record:x,legacy:false})),...old[id].map(x=>({record:x,legacy:true}))];if(!items.length){const p=document.createElement('p');p.textContent=id==='favorites'?'お気に入りはまだありません。各ガチャの☆ボタンで保存できます。':'履歴はまだありません。ガチャを引くとここに表示されます。';root.append(p);}
  items.forEach(({record:r,legacy})=>{const row=document.createElement('div');row.className='saved-item';const badge=document.createElement('span');badge.className='field-label';badge.textContent=legacy?labels.moment:labels[r.kind];const p=document.createElement('p');p.textContent=legacy?r.a1+' × '+r.a2+'｜'+r.s:[r.names.join(' × '),...r.fields.map(f=>f.label+'：'+f.value)].filter(Boolean).join('｜');const actions=document.createElement('div');actions.className='saved-actions';const open=document.createElement('a');open.textContent='このお題を使う';open.href=(legacy?'moment.html':['pair','couple'].includes(r.kind)?'fanfiction.html':r.kind+'.html')+'#restore='+encodeURIComponent(JSON.stringify(r));actions.append(open);if(id==='favorites'){const remove=document.createElement('button');remove.type='button';remove.textContent='保存を解除';remove.onclick=()=>{const key=legacy?LEGACY:KEY,d=read(key);d.favorites=d.favorites.filter(x=>legacy?!(x.a1===r.a1&&x.a2===r.a2&&x.s===r.s):signature(x)!==signature(r));if(write(d,key))status('お気に入りを解除しました。');saved();};actions.append(remove);}row.append(badge,p,actions);root.append(row);});}
@@ -93,10 +92,6 @@ if(page==='face'){
    $('lock-bangs').checked=$('lock-'+id).checked;$('lock-backhair').checked=$('lock-'+id).checked;
    render();
   }
- });
- $('hairMode').addEventListener('change',()=>{
-  $('lock-bangs').checked=false;$('lock-backhair').checked=false;
-  if(current)render();status('次のガチャから髪型の出し方を変更します。ほかの固定項目はそのままです。');
  });
 }
 restore();window.addEventListener('hashchange',restore);window.addEventListener('pageshow',()=>{if(current)render();});window.addEventListener('storage',()=>{if(current)render();});

@@ -77,18 +77,10 @@ if(window.gachaStartAtTop){
 <nav aria-label="メインメニュー"><a href="index.html">トップ</a><a href="primary.html">一次創作</a><a href="secondary.html">二次創作</a><a href="saved.html">保存したお題</a><a href="index.html#articles">創作記事</a></nav>
 
 <section class="card" id="gacha">
-<div class="controls">
-  <div><label for="mode">ガチャモード</label>
-  <select id="mode">
-    <option value="free" selected>ランダム</option>
-    <option value="romance">恋愛・萌え寄り</option>
-    <option value="gap">ギャップ・体格差寄り</option>
-    <option value="work">仕事・日常寄り</option>
-  </select></div>
-</div>
+
 
 <div class="section-label">お題を見つける</div>
-<div class="locks"><label><input type="checkbox" id="lockA1" disabled> 属性Aを固定</label><label><input type="checkbox" id="lockA2" disabled> 属性Bを固定</label><label><input type="checkbox" id="lockS" disabled> 場面を固定</label></div>
+<div class="locks" hidden><label><input type="checkbox" id="lockA1" disabled> 属性Aを固定</label><label><input type="checkbox" id="lockA2" disabled> 属性Bを固定</label><label><input type="checkbox" id="lockS" disabled> 場面を固定</label></div>
 <div class="tags" id="tags" aria-live="polite" aria-atomic="true"></div>
 <div class="result" id="result" aria-live="polite" aria-atomic="true">
 <div class="scene">ボタンを押して、今日の「描きたい瞬間」を引こう。</div>
@@ -181,7 +173,7 @@ function renderCurrent(){
 }
 function gacha(){
  if(current && ["lockA1","lockA2","lockS"].every(id=>el(id).checked)){notice("すべて固定されています。引き直したい要素の固定を外してください。");return;}
- const mode=el("mode").value;
+ const mode="free";
  let [a1,a2]=choosePair(mode);
  if(current&&el("lockA1").checked)a1=current.a1;
  if(current&&el("lockA2").checked)a2=current.a2;
