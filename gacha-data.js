@@ -622,7 +622,7 @@ window.CG_DATA = {
   ],
   "generators": {
     "character": {
-      "title": "キャラクターガチャ",
+      "title": "性格ガチャ",
       "group": "primary",
       "intro": "性格・役割・望み・弱点から、物語の中で動くキャラを考えよう。",
       "fields": {
@@ -1076,9 +1076,9 @@ window.CG_DATA = {
       }
     },
     "manga": {
-      "title": "漫画ネタガチャ",
+      "title": "物語のワンシーンガチャ",
       "group": "primary",
-      "intro": "場所・状況・感情・最初のセリフから、短い漫画のきっかけを。長さは自由です。",
+      "intro": "場所・出来事・感情・セリフのヒントから、漫画や小説の一場面を考えよう。",
       "fields": {
         "place": {
           "label": "場所",
@@ -1136,7 +1136,7 @@ window.CG_DATA = {
           ]
         },
         "event": {
-          "label": "状況",
+          "label": "出来事",
           "items": [
             "帰ろうとした相手を呼び止める",
             "渡したい物を隠している",
@@ -1191,7 +1191,7 @@ window.CG_DATA = {
           ]
         },
         "feeling": {
-          "label": "主役にする感情",
+          "label": "感情",
           "items": [
             "嬉しさを隠したい",
             "ほっとして力が抜ける",
@@ -1246,7 +1246,7 @@ window.CG_DATA = {
           ]
         },
         "line": {
-          "label": "最初のセリフ",
+          "label": "セリフのヒント",
           "items": [
             "「ちょっと待って」",
             "「覚えてたんだ」",
