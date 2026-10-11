@@ -3,7 +3,7 @@
 const KEY='creativeGachaStudio.extra.v1',LEGACY='creativeGachaStudio.v1';
 const $=id=>document.getElementById(id),page=document.body.dataset.page,DATA=window.CG_DATA;
 const GENERATORS=DATA.generators||{};
-const labels={appearance:'外見ガチャ',pair:'ふたりガチャ',couple:'推しカプガチャ',moment:'描きたい瞬間'};
+const labels={appearance:'外見ガチャ',pair:'保存した二人のお題（旧版）',couple:'推しカプガチャ',moment:'描きたい瞬間'};
 Object.entries(GENERATORS).forEach(([key,value])=>labels[key]=value.title);
 const invitation=k=>k==='deep'?'あなたのキャラなら、どう答える？':k==='composition'?'あなたなら、どんな一枚にする？':['appearance','character','name','face','fantasy'].includes(k)?'あなたなら、どんなキャラにする？':k==='world'?'あなたなら、どんな物語にする？':'あなたなら、どの瞬間を描く？';
 let current=null,imageURL=null,imageFile=null,revision=0;
@@ -11,8 +11,14 @@ const valid=x=>x&&(['appearance','pair','couple'].includes(x.kind)||Object.hasOw
 const fullName=x=>x.kind==='name'?(x.locale==='en'?[x.fields[1],x.fields[0]]:x.fields).map(f=>f.value.split('（')[0]).join(x.locale==='en'?'・':' '):'';
 const legacyValid=x=>x&&['a1','a2','s'].every(k=>typeof x[k]==='string');
 const signature=x=>JSON.stringify([x.kind,x.names,x.fields,x.kind==='name'?(x.locale||'jp'):null]);
+function normalizeRecord(x){
+ if(x&&x.kind==='solo'&&Array.isArray(x.fields)&&x.fields.length===4&&x.fields.every(f=>f&&typeof f.label==='string'&&typeof f.value==='string'&&f.value.length<500)){
+  return {...x,legacyFields:x.fields,fields:[x.fields[1],x.fields[2]]};
+ }
+ return x;
+}
 function status(t){$('status').textContent=t;}
-function read(key=KEY){try{const d=JSON.parse(localStorage.getItem(key)||'{}'),v=key===KEY?valid:legacyValid;return {favorites:Array.isArray(d.favorites)?d.favorites.filter(v).slice(0,100):[],history:Array.isArray(d.history)?d.history.filter(v).slice(0,20):[]};}catch{status('保存データを読み込めません。このブラウザの保存設定を確認してください。');return {favorites:[],history:[]};}}
+function read(key=KEY){try{const d=JSON.parse(localStorage.getItem(key)||'{}'),v=key===KEY?valid:legacyValid;return {favorites:Array.isArray(d.favorites)?d.favorites.map(x=>key===KEY?normalizeRecord(x):x).filter(v).slice(0,100):[],history:Array.isArray(d.history)?d.history.map(x=>key===KEY?normalizeRecord(x):x).filter(v).slice(0,20):[]};}catch{status('保存データを読み込めません。このブラウザの保存設定を確認してください。');return {favorites:[],history:[]};}}
 function write(d,key=KEY){try{localStorage.setItem(key,JSON.stringify(d));return true;}catch{status('保存できませんでした。ページを閉じる前に投稿文をコピーしてください。');return false;}}
 const recentPicks=new WeakMap();
 function pick(items,previous){
@@ -32,7 +38,7 @@ function faceHair(old){
  }
  return [frontLocked?old.fields[1].value:pick(GENERATORS.face.fields.bangs.items,old?.fields[1]?.value),backLocked?old.fields[2].value:pick(GENERATORS.face.fields.backhair.items,old?.fields[2]?.value)];
 }
-function kind(){return page==='fanfiction'?document.querySelector('[data-kind][aria-pressed="true"]').dataset.kind:page;}
+function kind(){return page==='fanfiction'?'couple':page;}
 function clearImage(){if(imageURL)URL.revokeObjectURL(imageURL);imageURL=null;imageFile=null;$('imagePanel').hidden=true;$('preview').removeAttribute('src');$('download').removeAttribute('href');}
 function reset(){revision++;current=null;$('resultFields').replaceChildren();$('empty').hidden=false;for(const id of ['save','share'])$(id).disabled=true;$('shareOptions').hidden=true;$('share').setAttribute('aria-expanded','false');clearImage();status('');}
 function text(){if(!current)return '';return ['🎲 '+labels[current.kind],current.kind==='name'?fullName(current):current.names.length?current.names.join(' × '):'',...current.fields.map(f=>f.label+'：'+f.value),'',invitation(current.kind),'#創作ガチャスタジオ'].filter((s,i)=>s||i>1).join('\n');}
@@ -58,7 +64,7 @@ function draw(){
   Object.entries(GENERATORS.face.fields).forEach(([id,data],i)=>fields.push({label:data.label,value:i===1?hair[0]:i===2?hair[1]:old&&$('lock-'+id).checked?old.fields[i].value:pick(data.items,old?.fields[i]?.value)}));
  }
  else if(GENERATORS[k]){Object.entries(GENERATORS[k].fields).forEach(([id,data],i)=>fields.push({label:data.label,value:old&&$('lock-'+id).checked?old.fields[i].value:pick(data.items,old?.fields[i]?.value)}));}
- else{const relations=k==='pair'?DATA.pairRelations:DATA.coupleRelations,scenes=k==='pair'?DATA.pairScenes:DATA.coupleScenes;fields.push({label:'関係性',value:old&&$('lock-relation').checked?old.fields[0].value:pick(relations,old?.fields[0]?.value)},{label:'シチュエーション',value:old&&$('lock-scene').checked?old.fields[1].value:pick(scenes,old?.fields[1]?.value)});}
+ else{const relations=DATA.coupleRelations,scenes=DATA.coupleScenes;fields.push({label:'関係性',value:old&&$('lock-relation').checked?old.fields[0].value:pick(relations,old?.fields[0]?.value)},{label:'シチュエーション',value:old&&$('lock-scene').checked?old.fields[1].value:pick(scenes,old?.fields[1]?.value)});}
  const names=k==='appearance'?[]:GENERATORS[k]?(GENERATORS[k].name?[$('nameA').value.trim()||GENERATORS[k].name]:[]):[$('nameA').value.trim()||'A',$('nameB').value.trim()||'B'];
  current={kind:k,names,fields,createdAt:Date.now(),...(k==='name'?{locale:$('nameLocale').value,gender:$('nameLocale').value==='jp'?$('nameGender').value:'all'}:{})};revision++;clearImage();status('');render();
  const data=read();data.history=[current,...data.history.filter(x=>signature(x)!==signature(current))].slice(0,20);write(data);
@@ -76,7 +82,7 @@ async function makeImage(){
  const blob=await new Promise((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(Error('PNG')),'image/png'));if(token!==revision)return;clearImage();imageURL=URL.createObjectURL(blob);imageFile=new File([blob],'creative-gacha-'+snapshot.kind+'.png',{type:'image/png'});$('preview').src=imageURL;$('preview').alt=fullText();$('download').href=imageURL;$('download').download=imageFile.name;$('imagePanel').hidden=false;$('shareImage').hidden=!(navigator.canShare&&navigator.canShare({files:[imageFile]}));status('画像を作りました。保存した画像をXの投稿画面にも添付できます。');
  }catch{status('画像を作成できませんでした。投稿文のコピーをご利用ください。');}finally{$('makeImage').disabled=false;}
 }
-function restore(){if(!location.hash.startsWith('#restore='))return;try{const item=JSON.parse(decodeURIComponent(location.hash.slice(9)));if(!valid(item)||(page==='fanfiction'?!['pair','couple'].includes(item.kind):item.kind!==page))throw Error('Invalid');if(page==='fanfiction'){document.querySelectorAll('[data-kind]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.kind===item.kind)));$('nameA').value=item.names[0]||'';$('nameB').value=item.names[1]||'';}else if($('nameA')){$('nameA').value=item.names[0]||'';}if(page==='name'){$('nameLocale').value=item.locale||'jp';$('nameGender').value=item.gender||'all';$('nameGenderGroup').hidden=$('nameLocale').value!=='jp';}document.querySelectorAll('[data-lock]').forEach(x=>x.checked=false);if(item.kind==='face'){item.fields[1].label='前髪';if(item.fields[1].value.startsWith('一体型：'))item.fields[2].value=item.fields[1].value;}current=item;revision++;clearImage();render();status('保存したお題を読み込みました。');window.history.replaceState(null,'',location.pathname+location.search);}catch{status('お題を読み込めませんでした。保存ページから開き直してください。');}}
+function restore(){if(!location.hash.startsWith('#restore='))return;try{const item=normalizeRecord(JSON.parse(decodeURIComponent(location.hash.slice(9))));if(!valid(item)||(page==='fanfiction'?!['pair','couple'].includes(item.kind):item.kind!==page))throw Error('Invalid');if(page==='fanfiction'){$('nameA').value=item.names[0]||'';$('nameB').value=item.names[1]||'';}else if($('nameA')){$('nameA').value=item.names[0]||'';}if(page==='name'){$('nameLocale').value=item.locale||'jp';$('nameGender').value=item.gender||'all';$('nameGenderGroup').hidden=$('nameLocale').value!=='jp';}document.querySelectorAll('[data-lock]').forEach(x=>x.checked=false);if(item.kind==='face'){item.fields[1].label='前髪';if(item.fields[1].value.startsWith('一体型：'))item.fields[2].value=item.fields[1].value;}current=item;revision++;clearImage();render();status('保存したお題を読み込みました。');window.history.replaceState(null,'',location.pathname+location.search);}catch{status('お題を読み込めませんでした。保存ページから開き直してください。');}}
 function saved(){
  const data=read(),old=read(LEGACY);for(const id of ['favorites','history']){const root=$(id);root.replaceChildren();const items=[...data[id].map(x=>({record:x,legacy:false})),...old[id].map(x=>({record:x,legacy:true}))];if(!items.length){const p=document.createElement('p');p.textContent=id==='favorites'?'お気に入りはまだありません。各ガチャの☆ボタンで保存できます。':'履歴はまだありません。ガチャを引くとここに表示されます。';root.append(p);}
  items.forEach(({record:r,legacy})=>{const row=document.createElement('div');row.className='saved-item';const badge=document.createElement('span');badge.className='field-label';badge.textContent=legacy?labels.moment:labels[r.kind];const p=document.createElement('p');p.textContent=legacy?r.a1+' × '+r.a2+'｜'+r.s:[r.names.join(' × '),...r.fields.map(f=>f.label+'：'+f.value)].filter(Boolean).join('｜');const actions=document.createElement('div');actions.className='saved-actions';const open=document.createElement('a');open.textContent='このお題を使う';open.href=(legacy?'moment.html':['pair','couple'].includes(r.kind)?'fanfiction.html':r.kind+'.html')+'#restore='+encodeURIComponent(JSON.stringify(r));actions.append(open);if(id==='favorites'){const remove=document.createElement('button');remove.type='button';remove.textContent='保存を解除';remove.onclick=()=>{const key=legacy?LEGACY:KEY,d=read(key);d.favorites=d.favorites.filter(x=>legacy?!(x.a1===r.a1&&x.a2===r.a2&&x.s===r.s):signature(x)!==signature(r));if(write(d,key))status('お気に入りを解除しました。');saved();};actions.append(remove);}row.append(badge,p,actions);root.append(row);});}
@@ -84,7 +90,7 @@ function saved(){
 if(page==='saved'){saved();window.addEventListener('storage',saved);window.addEventListener('pageshow',saved);return;}
 $('draw').addEventListener('click',draw);$('save').addEventListener('click',()=>{if(!current)return;const d=read();if(d.favorites.some(x=>signature(x)===signature(current))){status('このお題は保存済みです。');return;}if(d.favorites.length>=100){status('お気に入りは100件までです。保存ページで不要なお題を解除してください。');return;}d.favorites.unshift(current);if(write(d)){render();status('お気に入りに保存しました。');}});
 $('share').addEventListener('click',()=>{$('shareOptions').hidden=!$('shareOptions').hidden;$('share').setAttribute('aria-expanded',String(!$('shareOptions').hidden));});$('copy').addEventListener('click',copy);$('makeImage').addEventListener('click',makeImage);$('nativeShare').hidden=!navigator.share;$('nativeShare').addEventListener('click',async()=>{try{await navigator.share({title:'創作ガチャスタジオ',text:fullText()});}catch(e){if(e.name!=='AbortError')copy();}});$('shareImage').addEventListener('click',async()=>{if(!imageFile)return;try{await navigator.share({files:[imageFile],title:'創作ガチャスタジオ',text:fullText()});}catch(e){if(e.name!=='AbortError')status('画像を保存して、投稿画面で添付してください。');}});
-document.querySelectorAll('[data-kind]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-kind]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));reset();}));for(const id of ['nameA','nameB'])if($(id))$(id).addEventListener('input',reset);
+for(const id of ['nameA','nameB'])if($(id))$(id).addEventListener('input',reset);
 if($('nameLocale')){const changeNameOptions=()=>{$('nameGenderGroup').hidden=$('nameLocale').value!=='jp';document.querySelectorAll('[data-lock]').forEach(x=>x.checked=false);reset();};$('nameLocale').addEventListener('change',changeNameOptions);$('nameGender').addEventListener('change',changeNameOptions);}
 if(page==='face'){
  for(const id of ['bangs','backhair'])$('lock-'+id).addEventListener('change',()=>{
