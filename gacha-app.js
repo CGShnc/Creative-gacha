@@ -5,13 +5,18 @@ const $=id=>document.getElementById(id),page=document.body.dataset.page,DATA=win
 const GENERATORS=DATA.generators||{};
 const labels={appearance:'外見ガチャ',pair:'保存した二人のお題（旧版）',couple:'推しカプガチャ',relationship:'関係性・シチュエーションガチャ',moment:'描きたい瞬間'};
 Object.entries(GENERATORS).forEach(([key,value])=>labels[key]=value.title);
-const invitation=k=>k==='deep'?'あなたのキャラなら、どう答える？':k==='composition'?'あなたなら、どんな一枚にする？':['appearance','character','name','face','fantasy'].includes(k)?'あなたなら、どんなキャラにする？':['world','relationship'].includes(k)?'あなたなら、どんな物語にする？':'あなたなら、どの瞬間を描く？';
+const invitation=k=>k==='deep'?'あなたのキャラなら、どう答える？':['composition','couple-composition'].includes(k)?'あなたなら、どんな一枚にする？':['appearance','character','name','face','fantasy'].includes(k)?'あなたなら、どんなキャラにする？':['world','relationship'].includes(k)?'あなたなら、どんな物語にする？':'あなたなら、どの瞬間を描く？';
 let current=null,imageURL=null,imageFile=null,revision=0;
 const valid=x=>x&&(['appearance','pair','couple','relationship'].includes(x.kind)||Object.hasOwn(GENERATORS,x.kind))&&Array.isArray(x.fields)&&x.fields.length===(x.kind==='appearance'?6:GENERATORS[x.kind]?Object.keys(GENERATORS[x.kind].fields).length:2)&&x.fields.every(f=>f&&typeof f.label==='string'&&typeof f.value==='string'&&f.value.length<500)&&(x.kind!=='name'||x.gender===undefined||['all','male','female'].includes(x.gender))&&(x.kind!=='name'||x.locale===undefined||['jp','en'].includes(x.locale))&&Array.isArray(x.names)&&x.names.length<=2&&x.names.every(n=>typeof n==='string'&&n.length<=40);
 const fullName=x=>x.kind==='name'?(x.locale==='en'?[x.fields[1],x.fields[0]]:x.fields).map(f=>f.value.split('（')[0]).join(x.locale==='en'?'・':' '):'';
 const legacyValid=x=>x&&['a1','a2','s'].every(k=>typeof x[k]==='string');
 const signature=x=>JSON.stringify([x.kind,x.names,x.fields,x.kind==='name'?(x.locale||'jp'):null]);
 function normalizeRecord(x){
+ if(x&&((x.kind==='face'&&Array.isArray(x.fields)&&x.fields.length===8)||(x.kind==='fantasy'&&Array.isArray(x.fields)&&x.fields.length===7))&&x.fields.every(f=>f&&typeof f.label==='string'&&typeof f.value==='string'&&f.value.length<500)){
+  const indices=x.kind==='face'?[0,1,2,3,6,7]:[0,1,2,3,4,5];
+  return {...x,legacyFields:x.legacyFields||x.fields,fields:indices.map(i=>x.fields[i])};
+ }
+
  if(x&&x.kind==='manga'&&Array.isArray(x.fields)&&x.fields.length===4&&x.fields.every(f=>f&&typeof f.label==='string')){return {...x,fields:x.fields.map((f,i)=>({...f,label:['場所','出来事','感情','セリフのヒント'][i]}))};}
  if(x&&x.kind==='solo'&&Array.isArray(x.fields)&&x.fields.length===4&&x.fields.every(f=>f&&typeof f.label==='string'&&typeof f.value==='string'&&f.value.length<500)){
   return {...x,legacyFields:x.fields,fields:[x.fields[1],x.fields[2]]};
