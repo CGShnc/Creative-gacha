@@ -5,7 +5,7 @@ const $=id=>document.getElementById(id),page=document.body.dataset.page,DATA=win
 const GENERATORS=DATA.generators||{};
 const labels={appearance:'外見ガチャ',pair:'保存した二人のお題（旧版）',couple:'推しカプガチャ',relationship:'関係性・シチュエーションガチャ',moment:'描きたい瞬間'};
 Object.entries(GENERATORS).forEach(([key,value])=>labels[key]=value.title);
-const invitation=k=>k==='deep'?'あなたのキャラなら、どう答える？':['composition','couple-composition'].includes(k)?'あなたなら、どんな一枚にする？':['appearance','character','name','face','fantasy'].includes(k)?'あなたなら、どんなキャラにする？':['world','relationship'].includes(k)?'あなたなら、どんな物語にする？':'あなたなら、どの瞬間を描く？';
+const invitation=k=>k==='resonance'?'あなたは、どこに心が動いた？':k==='deep'?'あなたのキャラなら、どう答える？':['composition','couple-composition'].includes(k)?'あなたなら、どんな一枚にする？':['appearance','character','name','face','fantasy'].includes(k)?'あなたなら、どんなキャラにする？':['world','relationship'].includes(k)?'あなたなら、どんな物語にする？':'あなたなら、どの瞬間を描く？';
 let current=null,imageURL=null,imageFile=null,revision=0;
 const valid=x=>x&&(['appearance','pair','couple','relationship'].includes(x.kind)||Object.hasOwn(GENERATORS,x.kind))&&Array.isArray(x.fields)&&x.fields.length===(x.kind==='appearance'?6:GENERATORS[x.kind]?Object.keys(GENERATORS[x.kind].fields).length:2)&&x.fields.every(f=>f&&typeof f.label==='string'&&typeof f.value==='string'&&f.value.length<500)&&(x.kind!=='name'||x.gender===undefined||['all','male','female'].includes(x.gender))&&(x.kind!=='name'||x.locale===undefined||['jp','en'].includes(x.locale))&&Array.isArray(x.names)&&x.names.length<=2&&x.names.every(n=>typeof n==='string'&&n.length<=40);
 const fullName=x=>x.kind==='name'?(x.locale==='en'?[x.fields[1],x.fields[0]]:x.fields).map(f=>f.value.split('（')[0]).join(x.locale==='en'?'・':' '):'';
@@ -55,7 +55,7 @@ function render(){
  $('empty').hidden=true;$('resultFields').replaceChildren();
  if(current.kind==='name'){const heading=document.createElement('p');heading.className='pair-names';heading.textContent=fullName(current);$('resultFields').append(heading);}
  if(current.names.length){const title=document.createElement('p');title.className='pair-names';title.textContent=current.names.join(' × ');$('resultFields').append(title);}
- current.fields.forEach(f=>{const box=document.createElement('div');box.className='field-card';const caption=document.createElement('span');caption.className='field-label';caption.textContent=f.label;const value=document.createElement('strong');value.textContent=f.value;box.append(caption,value);$('resultFields').append(box);});
+ current.fields.forEach(f=>{const box=document.createElement('div');box.className='field-card'+(f.value.length>18?' field-wide':'');const caption=document.createElement('span');caption.className='field-label';caption.textContent=f.label;const value=document.createElement('strong');value.textContent=f.value;box.append(caption,value);$('resultFields').append(box);});
  $('save').disabled=false;$('share').disabled=false;$('save').textContent=read().favorites.some(x=>signature(x)===signature(current))?'★ お気に入り保存済み':'☆ お気に入りに保存';
  const url=new URL('https://x.com/intent/tweet');url.searchParams.set('text',text());if(pageURL())url.searchParams.set('url',pageURL());$('shareX').href=url.href;
 }

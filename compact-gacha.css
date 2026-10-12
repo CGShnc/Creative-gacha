@@ -1,0 +1,45 @@
+/* Compact generator layout; catalog and home pages are unchanged. */
+.compact-gacha header{border:0;padding:0 0 4px;margin:0}
+.compact-gacha .wrap{padding-top:16px}
+.compact-gacha .logo{font-size:10px;margin-bottom:5px}
+.compact-gacha .intro{font-size:15px;line-height:1.7;margin:8px auto 4px;max-width:640px}
+.compact-gacha nav{position:static;padding:8px 0}
+.compact-gacha .mobile-gacha-nav{display:none}
+.compact-gacha .card{margin:12px 0;padding:18px}
+.compact-gacha #empty{display:none}
+.compact-gacha #resultFields:empty,.compact-gacha #result:empty{display:none}
+.compact-gacha #draw,.compact-gacha #gachaBtn{margin:0 0 8px;min-height:48px}
+.compact-gacha .field-grid{margin:8px 0 12px;gap:10px}
+.compact-gacha .field-card{padding:12px 10px}
+.compact-gacha .field-card strong{font-size:19px;line-height:1.6}
+.compact-gacha .field-label{font-size:13px;margin-bottom:4px}
+.compact-gacha .field-lock{margin-top:8px;min-height:44px}
+.compact-gacha .name-inputs{margin:0 0 12px}
+.compact-gacha .names{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.compact-gacha .lock-guidance{margin:8px 0 10px;font-size:13px}
+.compact-gacha:not(:has(.field-card)):not(:has(.character-card)) .lock-guidance{display:none}
+.gacha-help{margin-top:14px;border-top:1px solid #e1c9d2;color:#62515a}
+.gacha-help>summary{cursor:pointer;min-height:44px;padding:10px 0;font-size:14px;color:#79304d}
+.gacha-help-content{font-size:14px;line-height:1.8}.gacha-help-content p{margin:6px 0 12px}
+@media(max-width:600px){
+.compact-gacha .wrap{padding:12px 12px 32px}
+.compact-gacha h1,.compact-gacha .page-title{font-size:25px;margin-bottom:4px}
+.compact-gacha .intro{font-size:14px;line-height:1.65;margin:6px auto}
+.compact-gacha .desktop-gacha-nav{display:none}
+.compact-gacha .mobile-gacha-nav{display:flex;justify-content:center;align-items:start;gap:6px;flex-wrap:nowrap}
+.mobile-gacha-nav>a,.compact-menu>summary{font-size:13px;line-height:22px;min-height:44px;padding:10px 12px;border:1px solid #d5cdc4;border-radius:999px;white-space:nowrap;color:#292725;text-decoration:none}
+.compact-menu{position:relative}.compact-menu>summary{cursor:pointer;list-style:none}.compact-menu>summary::-webkit-details-marker{display:none}.compact-menu>summary:after{content:' ▾'}
+.compact-menu[open]>summary{background:#f5e5eb}
+.compact-menu-links{position:absolute;right:0;top:50px;width:200px;background:white;border:1px solid #dba8bb;border-radius:12px;box-shadow:0 6px 18px #55283b22;padding:6px;z-index:5}
+.compact-menu-links a{display:block;border:0;border-radius:6px;padding:10px;min-height:44px;font-size:14px}
+.compact-gacha .card{margin:8px 0 12px;padding:14px;border-radius:15px}
+.compact-gacha .field-wide{grid-column:1/-1}
+.compact-gacha .field-card strong{font-size:18px;line-height:1.55}
+.compact-gacha .pair-fields{grid-template-columns:repeat(2,minmax(0,1fr))}
+.compact-gacha .pair-names{font-size:20px;margin:4px 0}
+.compact-gacha .character-card{padding:12px 8px;gap:4px}
+.compact-gacha .character-name{font-size:21px}
+.compact-gacha #tags{gap:10px;margin:8px 0 10px}
+.compact-gacha .share-request{font-size:12px;margin:8px 0}
+}
+@media(max-width:350px){.mobile-gacha-nav>a,.compact-menu>summary{padding-left:8px;padding-right:8px}.compact-gacha .names{grid-template-columns:1fr}}

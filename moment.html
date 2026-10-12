@@ -66,35 +66,33 @@ if(window.gachaStartAtTop){
 <link rel="icon" type="image/png" sizes="192x192" href="https://cgshnc.github.io/favicon.png">
 <link rel="apple-touch-icon" sizes="180x180" href="https://cgshnc.github.io/apple-touch-icon.png">
 <meta name="description" content="キャラも場面も、これから考えたいときに。キャラ属性二つとシチュエーションを組み合わせて、漫画・イラスト・小説のきっかけを探せます。気に入った属性や場面は固定して、残りだけ選び直せます。"><link rel="canonical" href="https://cgshnc.github.io/Creative-gacha/moment.html"><meta property="og:title" content="描きたい瞬間ガチャ｜キャラ属性とシチュエーションのお題｜創作ガチャスタジオ"><meta property="og:description" content="キャラも場面も、これから考えたいときに。キャラ属性二つとシチュエーションを組み合わせて、漫画・イラスト・小説のきっかけを探せます。気に入った属性や場面は固定して、残りだけ選び直せます。"><meta property="og:url" content="https://cgshnc.github.io/Creative-gacha/moment.html"><meta property="og:type" content="website">
-</head>
-<body>
+<link rel="stylesheet" href="compact-gacha.css?v=20261012c"></head>
+<body class="compact-gacha">
 <div class="wrap">
 <header>
 <div class="logo">CREATIVE GACHA STUDIO</div>
 <h1>描きたい瞬間ガチャ</h1>
-<div class="sub"><strong class="main-copy">「この瞬間、描きたい！」を見つける。</strong><br>キャラも場面も、これから考えたいときに。キャラ属性二つとシチュエーションを組み合わせて、漫画・イラスト・小説のきっかけを探せます。気に入った属性や場面は固定して、残りだけ選び直せます。<br><span class="formula">属性Aキャラ × 属性Bキャラ × シチュエーション</span></div>
+<p class="intro">キャラも場面も、これから。描きたい瞬間を探そう。</p>
 
 </header>
-<nav aria-label="メインメニュー"><a href="index.html">トップ</a><a href="primary.html">一次創作</a><a href="secondary.html">二次創作</a><a href="saved.html">保存したお題</a><a href="articles.html#articles">創作記事</a></nav>
+<nav class="desktop-gacha-nav" aria-label="メインメニュー"><a href="index.html">トップ</a><a href="primary.html">一次創作</a><a href="secondary.html">二次創作</a><a href="saved.html">保存したお題</a><a href="articles.html#articles">創作記事</a></nav><nav class="mobile-gacha-nav" aria-label="ガチャメニュー"><a href="primary.html">ガチャ一覧</a><a href="saved.html">保存したお題</a><details class="compact-menu"><summary>メニュー</summary><div class="compact-menu-links"><a href="index.html">トップ</a><a href="primary.html">一次創作のガチャ</a><a href="secondary.html">二次創作のガチャ</a><a href="articles.html">創作記事</a></div></details></nav>
 
 <section class="card" id="gacha">
 
 
-<div class="section-label">お題を見つける</div>
-<div class="locks" hidden><label><input type="checkbox" id="lockA1" disabled> 属性Aを固定</label><label><input type="checkbox" id="lockA2" disabled> 属性Bを固定</label><label><input type="checkbox" id="lockS" disabled> 場面を固定</label></div>
-<div class="tags" id="tags" aria-live="polite" aria-atomic="true"></div>
-<div class="result" id="result" aria-live="polite" aria-atomic="true">
-<div class="scene">ボタンを押して、今日の「描きたい瞬間」を引こう。</div>
-</div>
 
-<button id="gachaBtn" type="button">🎲 「描きたい瞬間」をガチャる</button><p class="lock-guidance" id="lockGuidance">気に入った要素が出たら、固定してもう一度。</p>
+<div class="locks" hidden><label><input type="checkbox" id="lockA1" disabled> 属性Aを固定</label><label><input type="checkbox" id="lockA2" disabled> 属性Bを固定</label><label><input type="checkbox" id="lockS" disabled> 場面を固定</label></div>
+<button id="gachaBtn" type="button">🎲 「描きたい瞬間」をガチャる</button><div class="tags" id="tags" aria-live="polite" aria-atomic="true"></div>
+<div class="result" id="result" aria-live="polite" aria-atomic="true"></div>
+
+<p class="lock-guidance" id="lockGuidance">気に入った要素が出たら、固定してもう一度。</p>
 <button id="againBtn" type="button" class="secondary" hidden>もう一回ガチャる</button>
 <button id="saveBtn" type="button" class="secondary" disabled>☆ お気に入りに保存</button>
 <button id="shareBtn" type="button" disabled class="share" aria-expanded="false" aria-controls="shareOptions">結果をシェアする</button>
 <p class="share-request">SNSの投稿には<span class="hashtag">「#創作ガチャスタジオ」</span>のタグ付けをお願いします。</p>
 <div id="shareOptions" class="share-options" hidden><a id="shareX" href="https://x.com/intent/post" target="_blank" rel="noopener noreferrer">Xで投稿する</a><button id="makeImage" type="button">結果を画像にする</button><button id="copyShare" type="button">投稿文をコピーする</button><button id="nativeShare" type="button">その他のアプリに共有する</button></div>
 <div id="imagePanel" class="result-image" hidden><img id="imagePreview" alt=""><a id="downloadImage" download="creative-gacha-result.png">画像を保存する</a><button id="shareImage" type="button" class="secondary" hidden>画像をアプリに共有する</button><p>保存した画像を、Xの投稿画面で添付できます。</p></div><p id="status" role="status"></p>
-</section>
+<details class="gacha-help"><summary>使い方・補足</summary><div class="gacha-help-content"><p><strong class="main-copy">「この瞬間、描きたい！」を見つける。</strong><br>キャラも場面も、これから考えたいときに。キャラ属性二つとシチュエーションを組み合わせて、漫画・イラスト・小説のきっかけを探せます。気に入った属性や場面は固定して、残りだけ選び直せます。<br><span class="formula">属性Aキャラ × 属性Bキャラ × シチュエーション</span></p></div></details></section>
 
 
 
