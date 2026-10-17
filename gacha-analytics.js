@@ -1,6 +1,6 @@
 'use strict';
-// 非公開の集計先を作成した後、そのウェブアプリURLを設定します。
-window.CG_COUNTER_CONFIG = { endpoint: '' };
+// ガチャの種類のみを送信。集計結果は公開しません。
+window.CG_COUNTER_CONFIG = { endpoint: 'https://script.google.com/macros/s/AKfycbzEoeCZIHN633yvp21VehpdzTjmCENhx42buLoego8xuVMJyuGOXEcTaU_wun0V0RRZNQ/exec' };
 (()=>{
   const kinds=new Set(['appearance','character','face','fantasy','name','deep','relationship','moment','manga','world','composition','solo','couple','couple-composition']);
   function draw(kind){
