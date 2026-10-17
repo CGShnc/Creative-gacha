@@ -84,6 +84,7 @@ function draw(){
  const names=k==='appearance'?[]:GENERATORS[k]?(GENERATORS[k].name?[$('nameA').value.trim()||GENERATORS[k].name]:[]):[$('nameA').value.trim()||'A',$('nameB').value.trim()||'B'];
  current={kind:k,names,fields,createdAt:Date.now(),...(k==='name'?{locale:$('nameLocale').value,gender:$('nameLocale').value==='jp'?$('nameGender').value:'all'}:{})};revision++;clearImage();status('');render();
  const data=read();data.history=[current,...data.history.filter(x=>signature(x)!==signature(current))].slice(0,20);write(data);
+ try{window.CGAnalytics?.draw(k);}catch{/* 解析の失敗でガチャを停止させない。 */}
 }
 async function copy(){try{await navigator.clipboard.writeText(fullText());status('結果・ハッシュタグ・URLをコピーしました。');}catch{window.prompt('コピーして投稿画面に貼り付けてください',fullText());}}
 function wrap(ctx,t,width){const out=[];let line='';for(const c of t){if(ctx.measureText(line+c).width>width&&line){out.push(line);line=c;}else line+=c;}if(line)out.push(line);return out;}
