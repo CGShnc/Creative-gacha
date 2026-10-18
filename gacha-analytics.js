@@ -6,7 +6,7 @@ window.CG_COUNTER_CONFIG = { endpoint: 'https://script.google.com/macros/s/AKfyc
   function draw(kind){
     const endpoint=window.CG_COUNTER_CONFIG.endpoint;
     if(!/^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(endpoint)||!kinds.has(kind))return;
-    if(location.hostname!=='cgshnc.github.io'||!location.pathname.startsWith('/Creative-gacha/'))return;
+    if(!(location.hostname==='creative-gs.com'||(location.hostname==='cgshnc.github.io'&&location.pathname.startsWith('/Creative-gacha/'))))return;
     try{
       fetch(endpoint,{
         method:'POST',mode:'no-cors',credentials:'omit',referrerPolicy:'no-referrer',
