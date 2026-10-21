@@ -3,21 +3,25 @@
 const KEY='creativeGachaStudio.extra.v1',LEGACY='creativeGachaStudio.v1';
 const $=id=>document.getElementById(id),page=document.body.dataset.page,DATA=window.CG_DATA;
 const GENERATORS=DATA.generators||{};
-const labels={appearance:'外見ガチャ',pair:'保存した二人のお題（旧版）',couple:'推しカプガチャ',relationship:'関係性・シチュエーションガチャ',moment:'描きたい瞬間'};
+const labels={appearance:'外見ガチャ',pair:'保存した二人のお題（旧版）',couple:'推しカプガチャ',relationship:'関係性・シチュエーションガチャ',moment:'属性かけ合わせガチャ'};
 Object.entries(GENERATORS).forEach(([key,value])=>labels[key]=value.title);
+labels.solo='推し単体ガチャ（旧お題）';
 labels.resonance='描きたい瞬間ガチャ（旧お題）';
-const invitation=k=>k==='resonance'?'あなたは、どこに心が動いた？':k==='deep'?'あなたのキャラなら、どう答える？':['composition','couple-composition'].includes(k)?'あなたなら、どんな一枚にする？':['appearance','character','name','face','fantasy','two-elements'].includes(k)?'あなたなら、どんなキャラにする？':['world','relationship'].includes(k)?'あなたなら、どんな物語にする？':'あなたなら、どの瞬間を描く？';
+const invitation=k=>k==='resonance'?'あなたは、どこに心が動いた？':k==='deep'?'あなたのキャラなら、どう答える？':['composition','couple-composition'].includes(k)?'あなたなら、どんな一枚にする？':['appearance','character','name','face','fantasy','two-elements','moment'].includes(k)?'あなたなら、どんなキャラにする？':['world','relationship'].includes(k)?'あなたなら、どんな物語にする？':'あなたなら、どの瞬間を描く？';
 let current=null,imageURL=null,imageFile=null,revision=0;
 const valid=x=>x&&(['appearance','pair','couple','relationship'].includes(x.kind)||Object.hasOwn(GENERATORS,x.kind))&&Array.isArray(x.fields)&&x.fields.length===(x.kind==='appearance'?6:GENERATORS[x.kind]?Object.keys(GENERATORS[x.kind].fields).length:2)&&x.fields.every(f=>f&&typeof f.label==='string'&&typeof f.value==='string'&&f.value.length<500)&&(x.kind!=='name'||x.gender===undefined||['all','male','female'].includes(x.gender))&&(x.kind!=='name'||x.locale===undefined||['jp','en'].includes(x.locale))&&Array.isArray(x.names)&&x.names.length<=2&&x.names.every(n=>typeof n==='string'&&n.length<=40);
 const fullName=x=>x.kind==='name'?(x.locale==='en'?[x.fields[1],x.fields[0]]:x.fields).map(f=>f.value.split('（')[0]).join(x.locale==='en'?'・':' '):'';
 const legacyValid=x=>x&&['a1','a2','s'].every(k=>typeof x[k]==='string');
 const signature=x=>JSON.stringify([x.kind,x.names,x.fields,x.kind==='name'?(x.locale||'jp'):null]);
 function normalizeRecord(x){
+ if(x&&['couple','pair'].includes(x.kind)&&Array.isArray(x.fields)&&x.fields.length===2)return {...x,kind:'relationship',legacyNames:x.names,names:[]};
+ if(x&&x.kind==='relationship'&&Array.isArray(x.names)&&x.names.length)return {...x,legacyNames:x.names,names:[]};
  if(x&&Array.isArray(x.fields)&&x.fields.every(f=>f&&typeof f.value==='string'&&f.value.length<500)){
   const f=x.fields,free='自由に設定',make=v=>Object.values(GENERATORS.moment.fields).map((field,i)=>({label:field.label,value:v[i]}));let v;
-  if(x.kind==='moment'&&f.length===5)v=[f[0].value,free,f[1].value,free,f[2].value,[f[3].value,f[4].value].filter(t=>t!==free).join('／')||free];
+  if(x.kind==='moment'&&f.length===5&&!(typeof f[0].label==='string'&&f[0].label.includes('キャラA')))v=[f[0].value,free,f[1].value,free,f[2].value,[f[3].value,f[4].value].filter(t=>t!==free).join('／')||free];
   if(x.kind==='two-elements'&&f.length===2)v=[f[0].value,f[1].value,free,free,free,free];
   if(x.kind==='resonance'&&f.length===4)v=[free,f[0].value,free,free,f[1].value,f[2].value+'／'+f[3].value];
+  if(x.kind==='moment'&&f.length===6)v=f.slice(0,5).map(t=>t.value);
   if(v)return {...x,kind:'moment',legacyFields:x.legacyFields||f,fields:make(v)};
  }
 
@@ -81,7 +85,7 @@ function draw(){
  }
  else if(GENERATORS[k]){Object.entries(GENERATORS[k].fields).forEach(([id,data],i)=>fields.push({label:data.label,value:old&&$('lock-'+id).checked?old.fields[i].value:pick(data.items,old?.fields[i]?.value)}));}
  else{const relations=DATA.coupleRelations,scenes=DATA.coupleScenes;fields.push({label:'関係性',value:old&&$('lock-relation').checked?old.fields[0].value:pick(relations,old?.fields[0]?.value)},{label:'シチュエーション',value:old&&$('lock-scene').checked?old.fields[1].value:pick(scenes,old?.fields[1]?.value)});}
- const names=k==='appearance'?[]:GENERATORS[k]?(GENERATORS[k].name?[$('nameA').value.trim()||GENERATORS[k].name]:[]):[$('nameA').value.trim()||'A',$('nameB').value.trim()||'B'];
+ const names=['appearance','relationship'].includes(k)?[]:GENERATORS[k]?(GENERATORS[k].name?[$('nameA').value.trim()||GENERATORS[k].name]:[]):[$('nameA').value.trim()||'A',$('nameB').value.trim()||'B'];
  current={kind:k,names,fields,createdAt:Date.now(),...(k==='name'?{locale:$('nameLocale').value,gender:$('nameLocale').value==='jp'?$('nameGender').value:'all'}:{})};revision++;clearImage();status('');render();
  const data=read();data.history=[current,...data.history.filter(x=>signature(x)!==signature(current))].slice(0,20);write(data);
  try{window.CGAnalytics?.draw(k);}catch{/* 解析の失敗でガチャを停止させない。 */}
@@ -104,10 +108,10 @@ function restore(){if(!location.hash.startsWith('#restore='))return;try{let item
   const make=values=>Object.values(GENERATORS.moment.fields).map((f,i)=>({label:f.label,value:values[i]}));
   if(legacyValid(item))item={kind:'moment',names:[],fields:make([item.a1,'自由に設定',item.a2,'自由に設定','自由に設定',item.s]),createdAt:item.createdAt||Date.now()};
  }
-if(!valid(item)||(page==='fanfiction'?!['pair','couple'].includes(item.kind):item.kind!==page))throw Error('Invalid');if(['fanfiction','relationship'].includes(page)){$('nameA').value=item.names[0]||'';$('nameB').value=item.names[1]||'';}else if($('nameA')){$('nameA').value=item.names[0]||'';}if(page==='name'){$('nameLocale').value=item.locale||'jp';$('nameGender').value=item.gender||'all';$('nameGenderGroup').hidden=$('nameLocale').value!=='jp';}document.querySelectorAll('[data-lock]').forEach(x=>x.checked=false);if(item.kind==='face'){item.fields[1].label='前髪';if(item.fields[1].value.startsWith('一体型：'))item.fields[2].value=item.fields[1].value;}current=item;revision++;clearImage();render();status('保存したお題を読み込みました。');window.history.replaceState(null,'',location.pathname+location.search);}catch{status('お題を読み込めませんでした。保存ページから開き直してください。');}}
+if(!valid(item)||(page==='fanfiction'?!['pair','couple'].includes(item.kind):item.kind!==page))throw Error('Invalid');if(page==='fanfiction'&&$('nameA')&&$('nameB')){$('nameA').value=item.names[0]||'';$('nameB').value=item.names[1]||'';}else if($('nameA')){$('nameA').value=item.names[0]||'';}if(page==='name'){$('nameLocale').value=item.locale||'jp';$('nameGender').value=item.gender||'all';$('nameGenderGroup').hidden=$('nameLocale').value!=='jp';}document.querySelectorAll('[data-lock]').forEach(x=>x.checked=false);if(item.kind==='face'){item.fields[1].label='前髪';if(item.fields[1].value.startsWith('一体型：'))item.fields[2].value=item.fields[1].value;}current=item;revision++;clearImage();render();status('保存したお題を読み込みました。');window.history.replaceState(null,'',location.pathname+location.search);}catch{status('お題を読み込めませんでした。保存ページから開き直してください。');}}
 function saved(){
  const data=read(),old=read(LEGACY);for(const id of ['favorites','history']){const root=$(id);root.replaceChildren();const items=[...data[id].map(x=>({record:x,legacy:false})),...old[id].map(x=>({record:x,legacy:true}))];if(!items.length){const p=document.createElement('p');p.textContent=id==='favorites'?'お気に入りはまだありません。各ガチャの☆ボタンで保存できます。':'履歴はまだありません。ガチャを引くとここに表示されます。';root.append(p);}
- items.forEach(({record:r,legacy})=>{const row=document.createElement('div');row.className='saved-item';const badge=document.createElement('span');badge.className='field-label';badge.textContent=legacy?labels.moment:labels[r.kind];const p=document.createElement('p');p.textContent=legacy?r.a1+' × '+r.a2+'｜'+r.s:[r.names.join(' × '),...r.fields.map(f=>f.label+'：'+f.value)].filter(Boolean).join('｜');const actions=document.createElement('div');actions.className='saved-actions';const open=document.createElement('a');open.textContent='このお題を使う';open.href=(legacy||r.kind==='resonance'?'moment.html':['pair','couple'].includes(r.kind)?'fanfiction.html':r.kind+'.html')+'#restore='+encodeURIComponent(JSON.stringify(r));actions.append(open);if(id==='favorites'){const remove=document.createElement('button');remove.type='button';remove.textContent='保存を解除';remove.onclick=()=>{const key=legacy?LEGACY:KEY,d=read(key);d.favorites=d.favorites.filter(x=>legacy?!(x.a1===r.a1&&x.a2===r.a2&&x.s===r.s):signature(x)!==signature(r));if(write(d,key))status('お気に入りを解除しました。');saved();};actions.append(remove);}row.append(badge,p,actions);root.append(row);});}
+ items.forEach(({record:r,legacy})=>{const row=document.createElement('div');row.className='saved-item';const badge=document.createElement('span');badge.className='field-label';badge.textContent=legacy?labels.moment:labels[r.kind];const p=document.createElement('p');p.textContent=legacy?r.a1+' × '+r.a2+'｜'+r.s:[(r.legacyNames||r.names).join(' × '),...(r.legacyFields||r.fields).map(f=>f.label+'：'+f.value)].filter(Boolean).join('｜');const actions=document.createElement('div');actions.className='saved-actions';const open=document.createElement('a');open.textContent='このお題を使う';open.href=(legacy||r.kind==='resonance'?'moment.html':['pair','couple'].includes(r.kind)?'relationship.html':r.kind+'.html')+'#restore='+encodeURIComponent(JSON.stringify(r));if(r.kind!=='solo')actions.append(open);if(id==='favorites'){const remove=document.createElement('button');remove.type='button';remove.textContent='保存を解除';remove.onclick=()=>{const key=legacy?LEGACY:KEY,d=read(key);d.favorites=d.favorites.filter(x=>legacy?!(x.a1===r.a1&&x.a2===r.a2&&x.s===r.s):signature(x)!==signature(r));if(write(d,key))status('お気に入りを解除しました。');saved();};actions.append(remove);}row.append(badge,p,actions);root.append(row);});}
 }
 function setupTransfer(){
  const box=document.createElement('section');box.className='card';
