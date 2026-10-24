@@ -3,11 +3,11 @@
 const KEY='creativeGachaStudio.extra.v1',LEGACY='creativeGachaStudio.v1';
 const $=id=>document.getElementById(id),page=document.body.dataset.page,DATA=window.CG_DATA;
 const GENERATORS=DATA.generators||{};
-const labels={appearance:'外見ガチャ',pair:'保存した二人のお題（旧版）',couple:'推しカプガチャ',relationship:'関係性・シチュエーションガチャ',moment:'属性かけ合わせガチャ'};
+const labels={appearance:'外見ガチャ',pair:'保存した二人のお題（旧版）',couple:'推しカプガチャ',relationship:'関係性・シチュエーションガチャ',moment:'カップリングガチャ'};
 Object.entries(GENERATORS).forEach(([key,value])=>labels[key]=value.title);
 labels.solo='推し単体ガチャ（旧お題）';
 labels.resonance='描きたい瞬間ガチャ（旧お題）';
-const invitation=k=>k==='resonance'?'あなたは、どこに心が動いた？':k==='deep'?'あなたのキャラなら、どう答える？':['composition','couple-composition'].includes(k)?'あなたなら、どんな一枚にする？':['appearance','character','name','face','fantasy','two-elements','moment'].includes(k)?'あなたなら、どんなキャラにする？':['world','relationship'].includes(k)?'あなたなら、どんな物語にする？':'あなたなら、どの瞬間を描く？';
+const invitation=k=>k==='moment'?'あなたは、どんなふたりに惹かれる？':k==='resonance'?'あなたは、どこに心が動いた？':k==='deep'?'あなたのキャラなら、どう答える？':['composition','couple-composition'].includes(k)?'あなたなら、どんな一枚にする？':['appearance','character','name','face','fantasy','two-elements','moment'].includes(k)?'あなたなら、どんなキャラにする？':['world','relationship'].includes(k)?'あなたなら、どんな物語にする？':'あなたなら、どの瞬間を描く？';
 let current=null,imageURL=null,imageFile=null,revision=0;
 const valid=x=>x&&(['appearance','pair','couple','relationship'].includes(x.kind)||Object.hasOwn(GENERATORS,x.kind))&&Array.isArray(x.fields)&&x.fields.length===(x.kind==='appearance'?6:GENERATORS[x.kind]?Object.keys(GENERATORS[x.kind].fields).length:2)&&x.fields.every(f=>f&&typeof f.label==='string'&&typeof f.value==='string'&&f.value.length<500)&&(x.kind!=='name'||x.gender===undefined||['all','male','female'].includes(x.gender))&&(x.kind!=='name'||x.locale===undefined||['jp','en'].includes(x.locale))&&Array.isArray(x.names)&&x.names.length<=2&&x.names.every(n=>typeof n==='string'&&n.length<=40);
 const fullName=x=>x.kind==='name'?(x.locale==='en'?[x.fields[1],x.fields[0]]:x.fields).map(f=>f.value.split('（')[0]).join(x.locale==='en'?'・':' '):'';
